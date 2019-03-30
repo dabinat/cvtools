@@ -42,9 +42,10 @@ on 150
 
 ## Where to get data
 
-Sentences are located in the [sever/data folder](https://github.com/mozilla/voice-web/tree/master/server/data) of the [mozilla/voice-web](https://github.com/mozilla/voice-web).
+Sentences are located in the [sever/data folder](https://github.com/mozilla/voice-web/tree/master/server/data) of [mozilla/voice-web](https://github.com/mozilla/voice-web).
 
 You can get a text file full of English words from [dwyl/english-words](https://github.com/dwyl/english-words). 
 
 [Direct link to Sentence Collector text file for English](https://raw.githubusercontent.com/mozilla/voice-web/master/server/data/en/sentence-collector.txt)
+
 [Direct link to English word dictionary](https://raw.githubusercontent.com/dwyl/english-words/master/words.txt)

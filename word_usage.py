@@ -9,12 +9,12 @@ dictionary_file = ''
 try:
 	opts, args = getopt.getopt(sys.argv[1:],"i:d:",["input=","dictionary="])
 except getopt.GetoptError:
-	print 'cvstats.py -i <inputfile>'
+	print('word_usage.py -i <input file> [-d <dictionary>]')
 	sys.exit(2)
 
 for opt, arg in opts:
 	if opt == '-h':
-		print 'cvstats.py -i <input file> [-d <dictionary>]'
+		print('word_usage.py -i <input file> [-d <dictionary>]')
 		sys.exit()
 	elif opt in ("-i", "--input"):
 		input_file = arg

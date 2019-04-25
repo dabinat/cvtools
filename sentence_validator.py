@@ -62,7 +62,14 @@ def runScript():
 				line = line.replace(u"\u00B4","'")
 				line = line.replace(u"\u201C","\"")
 				line = line.replace(u"\u201D","\"")
-			
+				line = line.replace(u"\u05BE","-")
+				line = line.replace(u"\u2010","-")
+				line = line.replace(u"\u2011","-")
+				line = line.replace(u"\u2012","-")
+				line = line.replace(u"\u2013","-")
+				line = line.replace(u"\u2014","-")
+				line = line.replace(u"\u2015","-")
+				
 				words = line.split()
 				word_count = len(words)
 				char_count = len(line)
@@ -73,8 +80,12 @@ def runScript():
 					
 				# Check if words are reasonable length
 				for w in words:
-					if len(w) > 15:
-						raise ValidationFailure("word length")
+					if len(w) > 16:
+						sub_words = w.split("-")
+						
+						for sw in sub_words:
+							if len(sw) > 16:
+								raise ValidationFailure("word length")
 		
 				# Check for non-English chars
 				if re.match(r"[^a-zA-Z'\-,.() \"]", line) is not None:

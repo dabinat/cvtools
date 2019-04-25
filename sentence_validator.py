@@ -95,6 +95,12 @@ def runScript():
 				first_char = line[0];
 				if first_char != first_char.upper():
 					raise ValidationFailure("partial sentence")
+
+				if first_char == "'" or first_char == "\"":
+					second_char = line[1];
+					if second_char != second_char.upper():
+						raise ValidationFailure("partial sentence")
+
 					
 				# Check if it ends with valid punctuation
 				last_char = line[-1];

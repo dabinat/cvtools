@@ -8,9 +8,13 @@ Python script to filter out invalid sentences.
 
 ### Usage
 
-**sentence_validator.py -i <input_file> [--output-success <output_file>] [--output-fail <output_file>]**
+~~~~
+sentence_validator.py -i <input_file> [--profanity-list <file>] [--output-success <output_file>] [--output-fail <output_file>]
+~~~~
 
 Input file is a text file with a sentence on each line.
+
+Profanity list (optional) is a text file with a word on each line. Specifying this option filters sentences containing words found in the text file.
 
 Output success file (optional) specifies the file to write successfully validated sentences to.
 
@@ -40,13 +44,17 @@ Validation failed (length): Yipe!
 
 Sentences are located in the [sever/data folder](https://github.com/mozilla/voice-web/tree/master/server/data) of [mozilla/voice-web](https://github.com/mozilla/voice-web).
 
+A text file of profanity can be found at [dabinat/profanity](https://github.com/dabinat/profanity).
+
 ## word_usage
 
 Python script to get word usage stats from Mozilla's Common Voice [Sentence Collector](https://common-voice.github.io/sentence-collector/#/).
 
 ### Usage
 
-**word_usage.py -i input_file [-d dictionary_file]**
+~~~~
+word_usage.py -i <input_file> [-d <dictionary_file>]
+~~~~
 
 Input file is a text file with a sentence on each line.
 

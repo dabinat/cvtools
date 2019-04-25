@@ -88,7 +88,7 @@ def runScript():
 								raise ValidationFailure("word length")
 		
 				# Check for non-English chars
-				if re.match(r"[^a-zA-Z'\-,.() \"]", line) is not None:
+				if re.search(r"[^a-zA-Z'\-,.!?:;() \"]", line) is not None:
 					raise ValidationFailure("invalid chars")
 
 				# Check if it starts with a capital letter

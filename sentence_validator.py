@@ -15,7 +15,7 @@ class ValidationFailure(Exception):
    
    
 def runScript():
-	global input_file,output_success_file,output_fail_file
+	global input_file,output_success_file,output_fail_file,profanity_file
 
 	try:
 		opts, args = getopt.getopt(sys.argv[1:],"i:p:o:of:",["input=","profanity-list=","output-success=","output-fail="])
@@ -37,9 +37,10 @@ def runScript():
 			output_fail_file = arg
 
 	# Cache profanity
-	with open(profanity_file) as pf:  
-		for line in pf:
-			profanity_list.append(line.strip())
+	if profanity_file:
+		with open(profanity_file) as pf:  
+			for line in pf:
+				profanity_list.append(line.strip())
 
 	# Open files for writing
 	if output_success_file:

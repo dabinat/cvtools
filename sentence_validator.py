@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import sys, getopt, re
-from collections import defaultdict
 
 input_file = ''
 profanity_file = ''

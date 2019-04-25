@@ -144,6 +144,8 @@ def expandAbbreviations(line):
 			out_word = "number"
 		elif w == "Mt" or w == "Mt.":
 			out_word = "Mount"
+		elif w == "Bros" or w == "Bros.":
+			out_word = "Brothers"
 		elif w == "i.e." or w == "i.e":
 			out_word = "that is"
 		elif w == "e.g." or w == "e.g":

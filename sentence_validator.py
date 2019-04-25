@@ -100,7 +100,6 @@ def runScript():
 					second_char = line[1];
 					if second_char != second_char.upper():
 						raise ValidationFailure("partial sentence")
-
 					
 				# Check if it ends with valid punctuation
 				last_char = line[-1];

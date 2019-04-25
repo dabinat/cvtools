@@ -68,7 +68,8 @@ If you specified a dictionary, it will also list words in the dictionary that do
 
 **Sample output**
 
-~~~~the 1393
+~~~~
+the 1393
 a 706
 to 551
 of 483

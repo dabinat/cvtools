@@ -75,7 +75,7 @@ def runScript():
 				char_count = len(line)
 			
 				# Check if too short or too long
-				if char_count < 5 or char_count > 100 or word_count < 3 or word_count > 14:
+				if char_count < 5 or char_count > 115 or word_count < 3 or word_count > 14:
 					raise ValidationFailure("length")
 					
 				# Check if words are reasonable length

@@ -4,6 +4,8 @@ import sys, getopt, re
 from collections import defaultdict
 
 input_file = ''
+profanity_file = ''
+profanity_list = []
 output_success_file = ''
 output_fail_file = ''
 
@@ -16,21 +18,28 @@ def runScript():
 	global input_file,output_success_file,output_fail_file
 
 	try:
-		opts, args = getopt.getopt(sys.argv[1:],"i:o:of:",["input=","output-success=","output-fail="])
+		opts, args = getopt.getopt(sys.argv[1:],"i:p:o:of:",["input=","profanity-list=","output-success=","output-fail="])
 	except getopt.GetoptError:
-		print('sentence_validator.py -i <input file> [--output-success <output file>] [-output-fail <output file>]')
+		print('sentence_validator.py -i <input file> [--profanity-list <file>] [--output-success <output file>] [-output-fail <output file>]')
 		sys.exit(2)
 
 	for opt, arg in opts:
 		if opt == '-h':
-			print('sentence_validator.py -i <input file> [--output-success <output file>] [-output-fail <output file>]')
+			print('sentence_validator.py -i <input file> [--profanity-list <file>] [--output-success <output file>] [-output-fail <output file>]')
 			sys.exit()
 		elif opt in ("-i", "--input"):
 			input_file = arg
+		elif opt in ("-p", "--profanity-list"):
+			profanity_file = arg
 		elif opt in ("-o", "--output-success"):
 			output_success_file = arg
 		elif opt in ("-of", "--output-fail"):
 			output_fail_file = arg
+
+	# Cache profanity
+	with open(profanity_file) as pf:  
+		for line in pf:
+			profanity_list.append(line.strip())
 
 	# Open files for writing
 	if output_success_file:
@@ -80,6 +89,10 @@ def runScript():
 				last_char = line[-1];
 				if not (last_char == "." or last_char == "!" or last_char == "?" or last_char == "'" or last_char == '"'):
 					raise ValidationFailure("punctuation")
+					
+				# Check for profanity
+				if containsProfanity(words):
+					raise ValidationFailure("profanity")
 					
 				# Validation successful
 				if output_success_file:
@@ -131,6 +144,12 @@ def expandAbbreviations(line):
 		
 	return " ".join(out_words)
 	
+def containsProfanity(words):	
+	for w in words:
+		if profanity_list.count(w.lower()) > 0:
+			return True
+			
+	return False
 	
 runScript()
 

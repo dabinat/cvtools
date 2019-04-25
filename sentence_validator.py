@@ -111,6 +111,10 @@ def runScript():
 				if containsProfanity(words):
 					raise ValidationFailure("profanity")
 					
+				# Prevent long lists
+				if line.count(",") > 4:
+					raise ValidationFailure("long list")
+
 				# Validation successful
 				if output_success_file:
 					f_success.write(line + "\n")

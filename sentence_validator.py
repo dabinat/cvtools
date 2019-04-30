@@ -74,6 +74,14 @@ def runScript():
 				word_count = len(words)
 				char_count = len(line)
 			
+				# Check for obviously truncated sentences
+				last_word = words[-1].lower()
+				sub_words = last_word.split("-")
+				last_word = re.sub(r'[^[a-zA-Z.]','', sub_words[-1])
+				
+				if last_word == "e.g." or last_word == "i.e." or last_word == "a.k.a" or last_word == "no."\
+				or last_word == "al." or last_word == "op.":
+					raise ValidationFailure("partial sentence")
 				# Check if too short or too long
 				if char_count < 5 or char_count > 115 or word_count < 3 or word_count > 14:
 					raise ValidationFailure("length")
@@ -100,11 +108,25 @@ def runScript():
 					second_char = line[1];
 					if second_char != second_char.upper():
 						raise ValidationFailure("partial sentence")
+						
+				# Check if it starts with an obviously wrong character
+				if first_char == "," or first_char == "." or first_char == ";" or first_char == ":"\
+				or first_char == "-" or first_char == "' ":
+					raise ValidationFailure("partial sentence")
 					
 				# Check if it ends with valid punctuation
 				last_char = line[-1];
 				if not (last_char == "." or last_char == "!" or last_char == "?" or last_char == "'" or last_char == '"'):
 					raise ValidationFailure("punctuation")
+					
+				# Look for missing words
+				for w in words:
+					if w == "\"\"" or w == "\"\"." or w == "\"\"," or w == "\"\";" or w == "\"\":" or w == "\"\"!"\
+					or w == "\"\"?" or w == "'s":
+						raise ValidationFailure("missing word")
+						
+				if line.count(" over of ") > 0 or line.count(" on of ") > 0 or line.count(" with of ") > 0:
+						raise ValidationFailure("missing word")
 					
 				# Check for possible foreign terms (e.g. Persona y Sociedad)
 				if containsForeignTerm(words):

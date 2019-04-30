@@ -106,6 +106,10 @@ def runScript():
 				if not (last_char == "." or last_char == "!" or last_char == "?" or last_char == "'" or last_char == '"'):
 					raise ValidationFailure("punctuation")
 					
+				# Check for possible foreign terms (e.g. Persona y Sociedad)
+				if containsForeignTerm(words):
+						raise ValidationFailure("foreign term")
+					
 				# Check for profanity
 				if containsProfanity(words):
 					raise ValidationFailure("profanity")
@@ -165,6 +169,44 @@ def expandAbbreviations(line):
 		out_words.append(out_word)
 		
 	return " ".join(out_words)
+	
+def containsForeignTerm(words):
+	for w in words:
+		sub_words = w.split("-")
+		for sw in sub_words:
+			sw_unstripped = sw
+			sw = re.sub(r'[^[a-zA-Z]','', sw)
+			
+			if sw_unstripped == "i" or sw_unstripped == "y" or sw.lower() == "el" or sw.lower() == "le" or sw.lower() == "ng" or sw == "les" \
+			or w == "de" or w == "un" or sw == "del" or sw == "og" or sw.lower() == "la" or sw == "ap" or sw == "ibn" \
+			or sw == "al" or sw == "das" or sw == "et" or sw == "fu" or sw == "ga" or sw == "sur" or sw == "du" \
+			or sw == "aj" or sw == "ud" or sw.lower() == "ix" or sw.lower() == "ich" or sw.lower() == "zur" \
+			or sw == "und" or sw == "una" or sw == "jou" or sw.lower() == "que" or sw == "qui" or sw == "est" or sw.lower() == "te" \
+			or sw.lower() == "tu" or sw.lower() == "il" or sw.lower() == "avec" or sw.lower() == "vous" or sw.lower() == "yr" \
+			or sw == "ar" or sw == "al" or sw == "il" or sw.lower() == "sa" or sw.lower().count("fj") > 0 \
+			or sw.lower().count("rrr") > 0:
+				return True
+			
+			if len(sw_unstripped) > 2:
+				prefix = sw[:2] if len(sw) > 2 else ""
+				prefix_unstripped = sw_unstripped[:2]
+				suffix = sw[-2] if len(sw) > 2 else ""
+				suffix_unstripped = sw_unstripped[-2]
+
+				if prefix_unstripped.lower() == "l'" or prefix_unstripped.lower() == "d'" or prefix_unstripped.lower() == "q'" \
+				or prefix_unstripped.lower() == "j'" or prefix_unstripped.lower() == "k'" or prefix_unstripped.lower() == "b'" \
+				or prefix_unstripped.lower() == "z'" or prefix_unstripped.lower() == "s'" \
+				or prefix == "Hr" or prefix.lower() == "tl" or prefix == "Rj" or prefix == "Ng" or prefix == "Nj" or prefix == "Hl" \
+				or prefix == "Tx" or prefix.lower() == "cv" or prefix == "Tk" or prefix == "Zh" or prefix == "Kt" \
+				or prefix.lower() == "lj" or prefix == "Kj" or prefix == "Bj" or prefix == "Hj" or prefix == "Dn" \
+				or prefix == "Qe" or prefix.lower() == "sv" or prefix.lower() == "sz" or prefix.lower() == "tz" \
+				or prefix.lower() == "dz" or prefix == "Rz" or prefix.lower() == "bz" or prefix.lower() == "Nz" \
+				or prefix == "Mz" or prefix == "Ys" or suffix_unstripped == "'u" or suffix_unstripped == "'e" \
+				or suffix_unstripped == "'a" or suffix_unstripped == "'i" or suffix_unstripped == "'o" \
+				or suffix_unstripped == "'h" or suffix_unstripped == "'r":
+					return True
+			
+	return False
 	
 def containsProfanity(words):	
 	for w in words:

@@ -167,6 +167,20 @@ def runScript():
 
 
 def expandAbbreviations(line):
+	# Find and replace common terms
+	line = line.replace("World War II","World War Two")
+	line = line.replace("World War I","World War One")
+	line = line.replace("Grade II","Grade Two")
+	line = line.replace("Grade I","Grade One")
+	line = line.replace("grade II","grade two")
+	line = line.replace("grade I","grade one")
+	line = line.replace(".com"," dot com")
+	line = line.replace(".net"," dot net")
+	line = line.replace(".org"," dot com")
+	line = line.replace(".ie"," dot ie")
+	line = line.replace(".co.uk"," dot co dot uk")
+	line = line.replace("www.","www dot ")
+	
 	source_words = line.split()	
 	out_words = [];
 	
@@ -177,24 +191,98 @@ def expandAbbreviations(line):
 			out_word = "and"
 		elif w.count("&") > 0:
 			out_word = w.replace("&"," and ")
-		elif w == "Jr" or w == "Jr.":
+		elif w == "Jr" or w == "Jr." or w == "Jr.,":
 			out_word = "Junior"
-		elif w == "Sr" or w == "Sr.":
+		elif w == "Sr" or w == "Sr." or w == "Sr.,":
 			out_word = "Senior"
-		elif w == "No.":
+		elif w == "No." or w == "Nr.":
 			out_word = "Number"
+		elif w == "Nos.":
+			out_word = "Numbers"
 		elif w == "no.":
 			out_word = "number"
 		elif w == "Mt" or w == "Mt.":
 			out_word = "Mount"
+		elif w == "Mts.":
+			out_word = "Mounts"
 		elif w == "Bros" or w == "Bros.":
 			out_word = "Brothers"
-		elif w == "i.e." or w == "i.e":
-			out_word = "that is"
-		elif w == "e.g." or w == "e.g":
-			out_word = "for example"
-		elif w == "etc" or w == "etc.":
-			out_word = "et cetera"
+		elif w == "Capt" or w == "Capt.":
+			out_word = "Captain"
+		elif w == "Col" or w == "Col.":
+			out_word = "Colonel"
+		elif w == "Lt" or w == "Lt.":
+			out_word = "Lieutenant"
+		elif w == "Sgt" or w == "Sgt.":
+			out_word = "Sergeant"
+		elif w == "Sgts" or w == "Sgts.":
+			out_word = "Sergeants"
+		elif w == "Gen.":
+			out_word = "General"
+		elif w == "Pt" or w == "Pt.":
+			out_word = "Part"
+		elif w == "pt" or w == "pt.":
+			out_word = "part"
+		elif w == "Fr" or w == "Fr.":
+			out_word = "Father"
+		elif w == "Rev" or w == "Rev.":
+			out_word = "Reverend"
+		elif w == "Vol" or w == "Vol.":
+			out_word = "Volume"
+		elif w == "vol" or w == "vol.":
+			out_word = "volume"
+		elif w == "Ch.":
+			out_word = "Chapter"
+		elif w == "ch.":
+			out_word = "chapter"
+		elif w == "pp" or w == "pp.":
+			out_word = "pages"
+		elif w == "p.":
+			out_word = "page"
+		elif w == "Ex:":
+			out_word = "Example:"
+		elif w == "Rep" or w == "Rep.":
+			out_word = "Representative"
+		elif w == "Govt" or w == "Govt.":
+			out_word = "Government"
+		elif w == "Dr" or w == "Dr.":
+			out_word = "Doctor"
+		elif w == "Drs" or w == "Drs.":
+			out_word = "Doctors"
+		elif w == "ca.":
+			out_word = "circa"
+		elif w == "Co.":
+			out_word = "Company"
+		elif w == "Hon.":
+			out_word = "Honorable"
+		elif w == "Inc." or w == "Inc.,":
+			out_word = "Incorporated"
+		elif w == "v." or w == "vs" or w == "vs.":
+			out_word = "versus"
+		elif w == "Msgr" or w == "Msgr.":
+			out_word = "Monsignor"
+		elif w == "St" or w == "St.":
+			out_word = "Saint"
+		elif w == "Sts" or w == "Sts.":
+			out_word = "Saints"
+		elif w == "Ltd" or w == "Ltd.":
+			out_word = "Limited"
+		elif w == "Ave.":
+			out_word = "Avenue"
+		elif w == "Brgy." or w == "Bgy.":
+			out_word = "Barangay"
+		elif w == "Hr.":
+			out_word = "Higher"
+		elif w == "Corp" or w == "Corp.":
+			out_word = "Corporation"
+		elif w == "Pfc.":
+			out_word = "Private first class"
+		elif w == "approx.":
+			out_word = "approximately"
+		elif w == "Mtn.":
+			out_word = "Mountain"
+		elif w == "Mgmt.":
+			out_word = "Management"
 
 		out_words.append(out_word)
 		

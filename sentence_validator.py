@@ -138,7 +138,15 @@ def runScript():
 					or w == "\"\"?" or w == "'s":
 						raise ValidationFailure("missing word")
 						
-				if line.count(" over of ") > 0 or line.count(" on of ") > 0 or line.count(" with of ") > 0:
+				if line.count(" over of ") > 0 or line.count(" on of ") > 0 or line.count(" with of ") > 0 \
+				or line.count(" by of ") > 0 or line.count(" between of ") > 0 or line.count(" between and ") > 0 \
+				or line.count(" and and ") > 0 or line.count(" of and ") > 0 or line.count(" of of ") > 0 \
+				or line.count(" than and ") > 0 or line.count(" than of ") > 0 or line.count(" of but ") > 0 \
+				or line.count(" about long ") > 0 or line.count(" about wide ") > 0 or line.count(" about tall ") > 0 \
+				or line.count(" about short ") > 0 or line.count(" about thick ") > 0 or line.count(" about deep ") > 0 \
+				or line.count(" approximately long ") > 0 or line.count(" approximately wide ") > 0 \
+				or line.count(" approximately tall ") > 0 or line.count(" approximately short ") > 0 \
+				or line.count(" approximately thick ") > 0 or line.count(" approximately deep ") > 0:
 						raise ValidationFailure("missing word")
 					
 				# Check for possible foreign terms (e.g. Persona y Sociedad)

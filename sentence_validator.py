@@ -82,17 +82,25 @@ def runScript():
 				if last_word == "e.g." or last_word == "i.e." or last_word == "a.k.a" or last_word == "no."\
 				or last_word == "al." or last_word == "op.":
 					raise ValidationFailure("partial sentence")
+				
 				# Check if too short or too long
-				if char_count < 5 or char_count > 115 or word_count < 3 or word_count > 14:
+				if char_count < 5 or char_count > 125 or word_count < 3 or word_count > 14:
 					raise ValidationFailure("length")
 					
 				# Check if words are reasonable length
+				w_index = -1
 				for w in words:
+					w_index += 1
 					if len(w) > 16:
 						sub_words = w.split("-")
 						
 						for sw in sub_words:
+							sw = re.sub(r'[^[a-zA-Z]','', sw)
+
 							if len(sw) > 16:
+								raise ValidationFailure("word length")
+							elif w_index > 0 and len(sw) > 10 and sw[0] == sw[0].upper():
+								# Lower word length for names
 								raise ValidationFailure("word length")
 		
 				# Check for non-English chars

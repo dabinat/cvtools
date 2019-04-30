@@ -168,8 +168,11 @@ def expandAbbreviations(line):
 	
 def containsProfanity(words):	
 	for w in words:
-		if profanity_list.count(w.lower()) > 0:
-			return True
+		sub_words = w.split("-")
+		for sw in sub_words:
+			sw = re.sub(r'[^[a-zA-Z]','', sw)
+			if profanity_list.count(sw.lower()) > 0:
+				return True
 			
 	return False
 	

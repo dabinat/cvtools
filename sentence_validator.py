@@ -7,6 +7,7 @@ profanity_file = ''
 profanity_list = []
 output_success_file = ''
 output_fail_file = ''
+approved_sentences = set()
 
 # Define custom exception
 class ValidationFailure(Exception):
@@ -151,8 +152,14 @@ def runScript():
 				# Prevent long lists
 				if line.count(",") > 4:
 					raise ValidationFailure("long list")
+					
+				# Check for dupes
+				if line in approved_sentences:
+					raise ValidationFailure("duplicate sentence")
 
 				# Validation successful
+				approved_sentences.add(line)
+				
 				if output_success_file:
 					f_success.write(line + "\n")
 					

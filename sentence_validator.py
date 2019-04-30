@@ -70,6 +70,10 @@ def runScript():
 				line = line.replace(u"\u2014","-")
 				line = line.replace(u"\u2015","-")
 				
+				# Tidy up sentence endings
+				if line.endswith("!.") or line.endswith("?."):
+					line = line[:-1]
+				
 				words = line.split()
 				word_count = len(words)
 				char_count = len(line)

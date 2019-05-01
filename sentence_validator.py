@@ -53,6 +53,14 @@ def runScript():
 	with open(input_file) as f:  
 		for line in f:		
 			try:
+				# Tidy up sentence endings
+				if line.endswith("!.") or line.endswith("?."):
+					line = line[:-1]
+				
+				# Clean up quotes
+				if line.count("\"") == 1:
+					line = line.replace("\"","")
+
 				# Replace abbreviated words
 				line = expandAbbreviations(line)
 			
@@ -70,11 +78,7 @@ def runScript():
 				line = line.replace(u"\u2013","-")
 				line = line.replace(u"\u2014","-")
 				line = line.replace(u"\u2015","-")
-				
-				# Tidy up sentence endings
-				if line.endswith("!.") or line.endswith("?."):
-					line = line[:-1]
-				
+								
 				words = line.split()
 				word_count = len(words)
 				char_count = len(line)

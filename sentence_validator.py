@@ -352,7 +352,7 @@ def expandAbbreviations(line):
 	
 def containsForeignTerm(words):
 	for w in words:
-		sub_words = w.split("-")
+		sub_words = re.split(r'-|\.{3}',w) # Split on - or ...
 		for sw in sub_words:
 			sw_unstripped = sw
 			sw = re.sub(r'[^[a-zA-Z]','', sw)
@@ -388,9 +388,10 @@ def containsForeignTerm(words):
 			
 	return False
 	
-def containsProfanity(words):	
+def containsProfanity(words):
 	for w in words:
-		sub_words = w.split("-")
+		sub_words = re.split(r'-|\.{3}',w) # Split on - or ...
+		
 		for sw in sub_words:
 			sw = re.sub(r'[^[a-zA-Z]','', sw)
 			if profanity_list.count(sw.lower()) > 0:

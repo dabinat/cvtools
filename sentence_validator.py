@@ -193,11 +193,24 @@ def expandAbbreviations(line):
 	line = line.replace("Grade I","Grade One")
 	line = line.replace("grade II","grade two")
 	line = line.replace("grade I","grade one")
+	line = line.replace("Type I","Type One")
+	line = line.replace("Type II","Type Two")
+	line = line.replace("type I","type one")
+	line = line.replace("type II","type two")
+	line = line.replace("Category I","Category One")
+	line = line.replace("Category II","Category Two")
+	line = line.replace("category I","category one")
+	line = line.replace("category II","category two")
 	line = line.replace(".com"," dot com")
 	line = line.replace(".net"," dot net")
-	line = line.replace(".org"," dot com")
+	line = line.replace(".org"," dot org")
 	line = line.replace(".ie"," dot ie")
-	line = line.replace(".co.uk"," dot co dot uk")
+	line = line.replace(".co"," dot co")
+	line = line.replace(".ac"," dot ac")
+	line = line.replace(".uk"," dot uk")
+	line = line.replace(".ca"," dot ca")
+	line = line.replace(".fm"," dot fm")
+	line = line.replace(".gov"," dot gov")
 	line = line.replace("www.","www dot ")
 	
 	source_words = line.split()	
@@ -226,6 +239,10 @@ def expandAbbreviations(line):
 			out_word = "Mounts"
 		elif w == "Bros" or w == "Bros.":
 			out_word = "Brothers"
+		elif w == "Bros," or w == "Bros.,":
+			out_word = "Brothers,"
+		elif w == "Bros\"" or w == "Bros.\"":
+			out_word = "Brothers\""
 		elif w == "Capt" or w == "Capt.":
 			out_word = "Captain"
 		elif w == "Col" or w == "Col.":
@@ -248,6 +265,8 @@ def expandAbbreviations(line):
 			out_word = "Reverend"
 		elif w == "Vol" or w == "Vol.":
 			out_word = "Volume"
+		elif w == "\"Vol.":
+			out_word = "\"Volume"
 		elif w == "vol" or w == "vol.":
 			out_word = "volume"
 		elif w == "Ch.":
@@ -270,6 +289,8 @@ def expandAbbreviations(line):
 			out_word = "Doctors"
 		elif w == "ca.":
 			out_word = "circa"
+		elif w == "Ca.":
+			out_word = "California"
 		elif w == "Co.":
 			out_word = "Company"
 		elif w == "Hon.":
@@ -278,6 +299,8 @@ def expandAbbreviations(line):
 			out_word = "Incorporated"
 		elif w == "v." or w == "vs" or w == "vs.":
 			out_word = "versus"
+		elif w == "Vs.":
+			out_word = "Versus"
 		elif w == "Msgr" or w == "Msgr.":
 			out_word = "Monsignor"
 		elif w == "St" or w == "St.":
@@ -302,6 +325,22 @@ def expandAbbreviations(line):
 			out_word = "Mountain"
 		elif w == "Mgmt.":
 			out_word = "Management"
+		elif w == "Vt.":
+			out_word = "Vermont"
+		elif w == "kg":
+			out_word = "kilograms"
+		elif w == "kg.":
+			out_word = "kilograms."
+		elif w == "km":
+			out_word = "kilometers"
+		elif w == "km.":
+			out_word = "kilometers."
+		elif w == "Wg.":
+			out_word = "Wing"
+		elif w == "Det.":
+			out_word = "Detective"
+		elif w == "Cllr" or w == "Cllr.":
+			out_word = "Councillor"
 
 		out_words.append(out_word)
 		

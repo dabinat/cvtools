@@ -85,7 +85,7 @@ def runScript():
 			
 				# Check for obviously truncated sentences
 				last_word = words[-1].lower()
-				sub_words = last_word.split("-")
+				sub_words = re.split(r'-|\.{3}',last_word) # Split on - or ...
 				last_word = re.sub(r'[^[a-zA-Z.]','', sub_words[-1])
 				
 				if last_word == "e.g." or last_word == "i.e." or last_word == "a.k.a" or last_word == "no."\
@@ -121,8 +121,10 @@ def runScript():
 						raise ValidationFailure("partial sentence")
 						
 				# Check if it starts with an obviously wrong character
-				if first_char == "," or first_char == "." or first_char == ";" or first_char == ":"\
-				or first_char == "-" or first_char == "' ":
+				if first_char == "," or first_char == "." or first_char == ";" or first_char == ":" or first_char == "-":
+					raise ValidationFailure("partial sentence")
+
+				if len(line) > 2 and (line[:2] == ("' ") or line[:2] == ("\" ") or line[:2] == ("',")):
 					raise ValidationFailure("partial sentence")
 					
 				# Check if it ends with valid punctuation
@@ -133,7 +135,7 @@ def runScript():
 				# Look for missing words
 				for w in words:
 					if w == "\"\"" or w == "\"\"." or w == "\"\"," or w == "\"\";" or w == "\"\":" or w == "\"\"!"\
-					or w == "\"\"?" or w == "'s":
+					or w == "\"\"?" or w == "'s" or w.startswith("??") or w.startswith("\"??"):
 						raise ValidationFailure("missing word")
 						
 				if line.count(" over of ") > 0 or line.count(" on of ") > 0 or line.count(" with of ") > 0 \
@@ -144,7 +146,11 @@ def runScript():
 				or line.count(" about short ") > 0 or line.count(" about thick ") > 0 or line.count(" about deep ") > 0 \
 				or line.count(" approximately long ") > 0 or line.count(" approximately wide ") > 0 \
 				or line.count(" approximately tall ") > 0 or line.count(" approximately short ") > 0 \
-				or line.count(" approximately thick ") > 0 or line.count(" approximately deep ") > 0:
+				or line.count(" approximately thick ") > 0 or line.count(" approximately deep ") > 0 \
+				or line.count(" from in ") > 0 or line.count(" to in ") > 0 or line.count(" from inches ") \
+				or line.count(" is in size ") > 0 or line.count(" than in size ") > 0 or line.count(" measures high ") > 0 \
+				or line.count(" measures wide ") > 0 or line.count(" measures long ") > 0 or line.count(" measures in size ") > 0 \
+				or line.count(" measuring in ") > 0 or line.count(" measuring between ") > 0 or line.count(" of per ") > 0:
 						raise ValidationFailure("missing word")
 					
 				# Check for possible foreign terms (e.g. Persona y Sociedad)

@@ -356,34 +356,53 @@ def containsForeignTerm(words):
 		for sw in sub_words:
 			sw_unstripped = sw
 			sw = re.sub(r'[^[a-zA-Z]','', sw)
+			sw_lower = sw.lower()
 			
-			if sw_unstripped == "i" or sw_unstripped == "y" or sw.lower() == "el" or sw.lower() == "le" or sw.lower() == "ng" or sw == "les" \
-			or w == "de" or w == "un" or sw == "del" or sw == "og" or sw.lower() == "la" or sw == "ap" or sw == "ibn" \
-			or sw == "al" or sw == "das" or sw == "et" or sw == "fu" or sw == "ga" or sw == "sur" or sw == "du" \
-			or sw == "aj" or sw == "ud" or sw.lower() == "ix" or sw.lower() == "ich" or sw.lower() == "zur" \
-			or sw == "und" or sw == "una" or sw == "jou" or sw.lower() == "que" or sw == "qui" or sw == "est" or sw.lower() == "te" \
-			or sw.lower() == "tu" or sw.lower() == "il" or sw.lower() == "avec" or sw.lower() == "vous" or sw.lower() == "yr" \
-			or sw == "ar" or sw == "al" or sw == "il" or sw.lower() == "sa" or sw.lower().count("fj") > 0 \
-			or sw.lower().count("rrr") > 0:
+			if sw_unstripped == "i" or sw_unstripped == "y" or sw_unstripped == "e" or sw_lower == "el" \
+			or sw_lower == "le" or sw_lower == "ng" or sw == "les" or w == "de" or w == "un" or sw == "del" \
+			or sw == "og" or sw_lower == "la" or sw == "ap" or sw == "ibn" or sw == "al" or sw == "das" \
+			or sw == "et" or sw == "fu" or sw == "ga" or sw == "sur" or sw == "du" or sw == "aj" or sw == "ud" \
+			or sw_lower == "ix" or sw_lower == "ich" or sw_lower == "zur" or sw == "und" or sw == "una" \
+			or sw == "jou" or sw_lower == "que" or sw == "qui" or sw == "est" or sw_lower == "te" \
+			or sw_lower == "tu" or sw_lower == "il" or sw_lower == "avec" or sw_lower == "vous" or sw_lower == "yr" \
+			or sw == "ar" or sw == "al" or sw == "il" or sw_lower == "sa" or sw == "af" or sw == "auf" \
+			or sw_lower == "na" or sw == "vi" or sw_lower == "ein" or sw_lower == "ist" or sw == "alte" \
+			or sw_lower == "mon" or sw_lower == "lei" or sw == "ma" or sw_lower == "lui" or sw == "dos" \
+			or sw == "mo" or sw_lower == "mi" or sw_lower == "moi" or sw_lower == "mon" or sw == "zu" \
+			or sw == "mit" or sw_lower == "von" or sw_lower == "au" or sw == "des" or sw_lower == "je" or sw_lower == "ne" \
+			or sw_lower.count("sz") > 0 or sw_lower.count("fj") > 0 or sw_lower.count("rrr") > 0:
 				return True
 			
 			if len(sw_unstripped) > 2:
 				prefix = sw[:2] if len(sw) > 2 else ""
+				prefix_lower = prefix.lower()
 				prefix_unstripped = sw_unstripped[:2]
+				prefix_unstripped_lower = prefix_unstripped.lower()
+				
 				suffix = sw[-2] if len(sw) > 2 else ""
+				suffix_lower = suffix.lower()
 				suffix_unstripped = sw_unstripped[-2]
+				suffix_unstripped_lower = suffix_unstripped.lower()
 
-				if prefix_unstripped.lower() == "l'" or prefix_unstripped.lower() == "d'" or prefix_unstripped.lower() == "q'" \
-				or prefix_unstripped.lower() == "j'" or prefix_unstripped.lower() == "k'" or prefix_unstripped.lower() == "b'" \
-				or prefix_unstripped.lower() == "z'" or prefix_unstripped.lower() == "s'" \
-				or prefix == "Hr" or prefix.lower() == "tl" or prefix == "Rj" or prefix == "Ng" or prefix == "Nj" or prefix == "Hl" \
-				or prefix == "Tx" or prefix.lower() == "cv" or prefix == "Tk" or prefix == "Zh" or prefix == "Kt" \
-				or prefix.lower() == "lj" or prefix == "Kj" or prefix == "Bj" or prefix == "Hj" or prefix == "Dn" \
-				or prefix == "Qe" or prefix.lower() == "sv" or prefix.lower() == "sz" or prefix.lower() == "tz" \
-				or prefix.lower() == "dz" or prefix == "Rz" or prefix.lower() == "bz" or prefix.lower() == "Nz" \
-				or prefix == "Mz" or prefix == "Ys" or suffix_unstripped == "'u" or suffix_unstripped == "'e" \
-				or suffix_unstripped == "'a" or suffix_unstripped == "'i" or suffix_unstripped == "'o" \
-				or suffix_unstripped == "'h" or suffix_unstripped == "'r":
+				if prefix_unstripped_lower == "l'" or prefix_unstripped_lower == "d'" or prefix_unstripped_lower == "q'" \
+				or prefix_unstripped_lower == "j'" or prefix_unstripped_lower == "k'" or prefix_unstripped_lower == "b'" \
+				or prefix_unstripped_lower == "z'" or prefix_unstripped_lower == "s'" \
+				or prefix == "Hr" or prefix_lower == "tl" or prefix == "Rj" or prefix == "Ng" or prefix == "Nj" or prefix == "Hl" \
+				or prefix == "Tx" or prefix_lower == "cv" or prefix == "Tk" or prefix == "Zh" or prefix == "Kt" \
+				or prefix_lower == "lj" or prefix == "Kj" or prefix == "Bj" or prefix == "Hj" or prefix == "Dn" \
+				or prefix == "Qe" or prefix_lower == "sv" or prefix_lower == "sz" or prefix_lower == "tz" \
+				or prefix_lower == "dz" or prefix == "Rz" or prefix_lower == "bz" or prefix_lower == "Nz" \
+				or prefix == "Mz" or prefix == "Ys" or prefix == "Mx" or prefix == "tx" or prefix == "Yx" \
+				or prefix_lower == "ix" or prefix_lower == "gx" or prefix_lower == "lx" or prefix_lower == "xx" \
+				or prefix == "Nx" or prefix == "Vs" or prefix == "Vr" or prefix == "Vh" or prefix == "Vv" or prefix_lower == "vn" \
+				or prefix == "Kw" or prefix == "Kp" or prefix == "Ks" or prefix == "Kg" or prefix == "Kz" or prefix == "Kv" \
+				or prefix == "Qw" or prefix == "Qo" or prefix == "Qh" or prefix_lower == "ql" or prefix == "Qv" \
+				or prefix_lower == "qn" or prefix_lower == "wd" or prefix == "Wl" or prefix_lower == "wm" or prefix == "Zw" \
+				or prefix == "Zr" or prefix == "Zs" or prefix_lower == "zd" or prefix == "Zv" or prefix == "Zb" \
+				or prefix_lower == "zn" or prefix == "Zm" or prefix == "Pf" or prefix == "Hv" or prefix == "Gj" \
+				or prefix == "Ts" or prefix_lower == "bw" or suffix == "kw" or suffix_unstripped == "'u" \
+				or suffix_unstripped == "'e" or suffix_unstripped == "'a" or suffix_unstripped == "'i" \
+				or suffix_unstripped == "'o" or suffix_unstripped == "'h" or suffix_unstripped == "'r":
 					return True
 			
 	return False

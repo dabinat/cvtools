@@ -97,20 +97,14 @@ def runScript():
 					raise ValidationFailure("length")
 					
 				# Check if words are reasonable length
-				w_index = -1
 				for w in words:
-					w_index += 1
-					if len(w) > 16:
-						sub_words = w.split("-")
-						
-						for sw in sub_words:
-							sw = re.sub(r'[^[a-zA-Z]','', sw)
+					sub_words = re.split(r'-|\.{3}',w) # Split on - or ...
+					
+					for sw in sub_words:
+						sw = re.sub(r'[^[a-zA-Z]','', sw)
 
-							if len(sw) > 16:
-								raise ValidationFailure("word length")
-							elif w_index > 0 and len(sw) > 10 and sw[0] == sw[0].upper():
-								# Lower word length for names
-								raise ValidationFailure("word length")
+						if len(sw) > 15:
+							raise ValidationFailure("word length")
 		
 				# Check for non-English chars
 				if re.search(r"[^a-zA-Z'\-,.!?:;() \"]", line) is not None:

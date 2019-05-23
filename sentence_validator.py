@@ -437,9 +437,33 @@ def containsForeignTerm(words):
 			or sw == "ar" or sw == "al" or sw == "il" or sw_lower == "sa" or sw == "af" or sw == "auf" \
 			or sw_lower == "na" or sw == "vi" or sw_lower == "ein" or sw_lower == "ist" or sw == "alte" \
 			or sw_lower == "mon" or sw_lower == "lei" or sw == "ma" or sw_lower == "lui" or sw == "dos" \
-			or sw == "mo" or sw_lower == "mi" or sw_lower == "moi" or sw_lower == "mon" or sw == "zu" \
+			or sw == "mo" or sw_lower == "mi" or sw_lower == "moi" or sw_lower == "mon" or sw_lower == "rasa" or sw == "zu" \
 			or sw == "mit" or sw_lower == "von" or sw_lower == "au" or sw == "des" or sw_lower == "je" or sw_lower == "ne" \
-			or sw_lower.count("sz") > 0 or sw_lower.count("fj") > 0 or sw_lower.count("rrr") > 0:
+			or sw_lower == "ja" or sw_lower == "za" or sw_lower == "ka" or sw_lower == "ba" or sw_lower == "ny" \
+			or sw_lower == "ch" or sw_lower == "lok" or sw_lower == "ool" or sw_lower == "ry" or sw_lower == "haq" \
+			or sw_lower == "huq" or sw_lower == "ul" or sw_lower == "ga" or sw_lower == "roi" or sw_lower == "dh" \
+			or sw_lower.count("sz") > 0 or sw_lower.count("fj") > 0 or sw_lower.count("rrr") > 0 or sw_lower.count("vlt") > 0 \
+			or sw_lower.count("icz") > 0 or sw_lower.count("aen") > 0 or sw_lower.count("aoa") > 0 or sw_lower.count("gks") > 0 \
+			or sw_lower.count("ldj") > 0 or sw_lower.count("bha") > 0 or sw_lower.count("oji") > 0 or sw_lower.count("ijc") > 0 \
+			or sw_lower.count("zej") > 0 or sw_lower.count("aad") > 0 or sw_lower.count("aass") > 0 or sw_lower.count("nayi") > 0 \
+			or sw_lower.count("yy") > 0 or sw_lower.count("iiv") > 0 or sw_lower.count("zdz") > 0 or sw_lower.count("jja") > 0 \
+			or sw_lower.count("jju") > 0 or sw_lower.count("uuk") > 0 or sw_lower.count("plj") > 0 or sw_lower.count("vlj") > 0 \
+			or sw_lower.count("dtt") > 0 or sw_lower.count("aat") > 0 or sw_lower.count("mts") > 0 or sw_lower.count("vya") > 0 \
+			or sw_lower.count("gnj") > 0 or sw_lower.count("qar") > 0 or sw_lower.count("jy") > 0 or sw_lower.count("bhak") > 0 \
+			or sw_lower.count("visn") > 0 or sw_lower.count("abha") > 0 or sw_lower.count("djed") > 0 \
+			or sw_lower.count("ajat") > 0 or sw_lower.count("rii") > 0 or sw_lower.count("sii") > 0 or sw_lower.count("tii") > 0 \
+			or sw_lower.count("mii") > 0 or sw_lower.count("jii") > 0 or sw_lower.count("zii") > 0 or sw_lower.count("zii") > 0 \
+			or sw_lower.count("sii") > 0 or sw_lower.count("oii") > 0 or sw_lower.count("pii") > 0 or sw_lower.count("gii") > 0 \
+			or sw_lower.count("lii") > 0 or sw_lower.count("cii") > 0 or sw_lower.count("nii") > 0 or sw_lower.count("dzt") > 0 \
+			or sw_lower.count("yngl") > 0 or sw_lower.count("kht") > 0 or sw_lower.count("qut") > 0 or sw_lower.count("ilij") > 0 \
+			or sw_lower.count("jg") > 0 or sw_lower.count("aak") > 0 or sw_lower.count("aey") > 0 or sw_lower.count("ijp") > 0 \
+			or sw_lower.count("gaon") > 0 or sw_lower.count("lj") > 0 or sw_lower.count("gju") > 0 or sw_lower.count("zuu") > 0 \
+			or sw_lower.count("garh") > 0 or sw_lower.count("abik") > 0 or sw_lower.count("sva") > 0 or sw_lower.count("iae") > 0 \
+			or sw_lower.count("eae") > 0 or sw_lower.count("ydd") > 0 or sw_lower.count("aew") > 0 or sw_lower.count("ggj") > 0 \
+			or sw_lower.count("tsip") > 0 or sw_lower.count("dsche") > 0 or sw_lower.count("iid") > 0 or sw_lower.count("uqa") > 0 \
+			or sw_lower.count("ianu") > 0 or sw_lower.count("cnem") > 0 or sw_lower.count("dyal") > 0 or sw_lower.count("naja") > 0 \
+			or sw_lower.count("naji") > 0 or sw_lower.count("jid") > 0 or sw_lower.count("gve") > 0 or sw_lower.count("mjo") > 0 \
+			or sw_lower.count("oelo") > 0 or sw_unstripped.lower().count("ha'a") > 0:
 				return True
 			
 			if len(sw_unstripped) > 2:

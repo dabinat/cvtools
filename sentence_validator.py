@@ -88,8 +88,10 @@ def runScript():
 				sub_words = re.split(r'-|\.{3}',last_word) # Split on - or ...
 				last_word = re.sub(r'[^[a-zA-Z.]','', sub_words[-1])
 				
-				if last_word == "e.g." or last_word == "i.e." or last_word == "a.k.a" or last_word == "no."\
-				or last_word == "al." or last_word == "op.":
+				if last_word == "." or last_word == "e.g." or last_word == "i.e." or last_word == "a.k.a" \
+				or last_word == "no." or last_word == "al." or last_word == "op." or last_word == "mr." \
+				or last_word == "and" or last_word == "including" or last_word == "a.o." \
+				or last_word == "xx.":
 					raise ValidationFailure("partial sentence")
 				
 				# Check if too short or too long

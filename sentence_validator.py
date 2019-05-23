@@ -188,6 +188,12 @@ def expandAbbreviations(line):
 	line = line.replace("Category II","Category Two")
 	line = line.replace("category I","category one")
 	line = line.replace("category II","category two")
+	line = line.replace("Model I","Model One")
+	line = line.replace("Schedule I","Schedule One")
+	line = line.replace("Schedule II","Schedule Two")
+	line = line.replace("Class I","Class One")
+	line = line.replace("Class II","Class Two")
+	line = line.replace("Class III","Class Three")
 	line = line.replace(".com"," dot com")
 	line = line.replace(".net"," dot net")
 	line = line.replace(".org"," dot org")
@@ -199,7 +205,23 @@ def expandAbbreviations(line):
 	line = line.replace(".fm"," dot fm")
 	line = line.replace(".gov"," dot gov")
 	line = line.replace("www.","www dot ")
-	
+	line = line.replace("Charles I ","Charles the First ")
+	line = line.replace("Charles I.","Charles the First.")
+	line = line.replace("James I ","James the First ")
+	line = line.replace("James I.","James the First.")
+	line = line.replace("John I ","John the First ")
+	line = line.replace("John I ","John the First ")
+	line = line.replace("Mary I ","Mary the First ")
+	line = line.replace("Elizabeth I ","Elizabeth the First ")
+	line = line.replace("Henry I ","Henry the First ")
+	line = line.replace("Henry V ","Henry the Fifth ")
+	line = line.replace("Edward I ","Edward the First ")
+	line = line.replace("Albert I ","Albert the First ")
+	line = line.replace("Louis I ","Louis the First ")
+	line = line.replace("Louis V ","Louis the Fifth ")
+	line = line.replace("Mehmed V ","Mehmed the Fifth ")
+	line = line.replace("Napoleon I ","Napoleon the First ")
+
 	source_words = line.split()	
 	out_words = [];
 	
@@ -272,6 +294,8 @@ def expandAbbreviations(line):
 			out_word = "Government"
 		elif w == "Dr" or w == "Dr.":
 			out_word = "Doctor"
+		elif w == "\"Dr.":
+			out_word = "\"Doctor"
 		elif w == "Drs" or w == "Drs.":
 			out_word = "Doctors"
 		elif w == "ca.":
@@ -292,10 +316,14 @@ def expandAbbreviations(line):
 			out_word = "Monsignor"
 		elif w == "St" or w == "St.":
 			out_word = "Saint"
+		elif w == "\"St" or w == "\"St.":
+			out_word = "\"Saint"
 		elif w == "Sts" or w == "Sts.":
 			out_word = "Saints"
 		elif w == "Ltd" or w == "Ltd.":
 			out_word = "Limited"
+		elif w == "Ltd's":
+			out_word = "Limited's"
 		elif w == "Ave.":
 			out_word = "Avenue"
 		elif w == "Brgy." or w == "Bgy.":
@@ -308,6 +336,8 @@ def expandAbbreviations(line):
 			out_word = "Private first class"
 		elif w == "approx.":
 			out_word = "approximately"
+		elif w == "Approx.":
+			out_word = "Approximately"
 		elif w == "Mtn.":
 			out_word = "Mountain"
 		elif w == "Mgmt.":
@@ -326,8 +356,64 @@ def expandAbbreviations(line):
 			out_word = "Wing"
 		elif w == "Det.":
 			out_word = "Detective"
-		elif w == "Cllr" or w == "Cllr.":
+		elif w == "Cllr" or w == "Cllr." or w == "Cr.":
 			out_word = "Councillor"
+		elif w == "Tenn" or w == "Tenn.":
+			out_word = "Tennessee"
+		elif w == "Brig.":
+			out_word = "Brigadier"
+		elif w == "Blvd":
+			out_word = "Boulevard"
+		elif w == "Lt.Col.":
+			out_word = "Lieutenant Colonel"
+		elif w == "Eq.":
+			out_word = "Equation"
+		elif w == "eq.":
+			out_word = "equation"
+		elif w == "Esq.":
+			out_word = "Esquire"
+		elif w == "Op.":
+			out_word = "Opus"
+		elif w == "Opp.":
+			out_word = "Opuses"
+		elif w == "Mk.":
+			out_word = "Mark"
+		elif w == "mk.":
+			out_word = "mark"
+		elif w == "Hwy" or w == "Hwy.":
+			out_word = "Highway"
+		elif w == "Mar.":
+			out_word = "March"
+		elif w == "Maj" or w == "Maj.":
+			out_word = "Major"
+		elif w == "Gens.":
+			out_word = "Generals"
+		elif w == "Prof" or w == "Prof.":
+			out_word = "Professor"
+		elif w == "Cdr.":
+			out_word = "Commander"
+		elif w == "d.b.a.":
+			out_word = "doing business as"
+		elif w == "a.k.a.":
+			out_word = "also known as"
+		elif w == "c.o.":
+			out_word = "County"
+		elif w == "viz.":
+			out_word = "videlicet"
+		elif w == "Prop.":
+			out_word = "Proposition"
+		elif w == "Jno.":
+			out_word = "John"
+		elif w == "ed.":
+			out_word = "edition"
+		elif w == "rev.":
+			out_word = "revision"
+		elif w == "Dt.":
+			out_word = "Detective"
+		elif w == "Dts.":
+			out_word = "Detectives"
+		elif w == "sp.":
+			out_word = "spelling"
 
 		out_words.append(out_word)
 		

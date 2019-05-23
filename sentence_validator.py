@@ -133,24 +133,7 @@ def runScript():
 					raise ValidationFailure("punctuation")
 					
 				# Look for missing words
-				for w in words:
-					if w == "\"\"" or w == "\"\"." or w == "\"\"," or w == "\"\";" or w == "\"\":" or w == "\"\"!"\
-					or w == "\"\"?" or w == "'s" or w.startswith("??") or w.startswith("\"??"):
-						raise ValidationFailure("missing word")
-						
-				if line.count(" over of ") > 0 or line.count(" on of ") > 0 or line.count(" with of ") > 0 \
-				or line.count(" by of ") > 0 or line.count(" between of ") > 0 or line.count(" between and ") > 0 \
-				or line.count(" and and ") > 0 or line.count(" of and ") > 0 or line.count(" of of ") > 0 \
-				or line.count(" than and ") > 0 or line.count(" than of ") > 0 or line.count(" of but ") > 0 \
-				or line.count(" about long ") > 0 or line.count(" about wide ") > 0 or line.count(" about tall ") > 0 \
-				or line.count(" about short ") > 0 or line.count(" about thick ") > 0 or line.count(" about deep ") > 0 \
-				or line.count(" approximately long ") > 0 or line.count(" approximately wide ") > 0 \
-				or line.count(" approximately tall ") > 0 or line.count(" approximately short ") > 0 \
-				or line.count(" approximately thick ") > 0 or line.count(" approximately deep ") > 0 \
-				or line.count(" from in ") > 0 or line.count(" to in ") > 0 or line.count(" from inches ") \
-				or line.count(" is in size ") > 0 or line.count(" than in size ") > 0 or line.count(" measures high ") > 0 \
-				or line.count(" measures wide ") > 0 or line.count(" measures long ") > 0 or line.count(" measures in size ") > 0 \
-				or line.count(" measuring in ") > 0 or line.count(" measuring between ") > 0 or line.count(" of per ") > 0:
+				if containsMissingWords(line):
 						raise ValidationFailure("missing word")
 					
 				# Check for possible foreign terms (e.g. Persona y Sociedad)
@@ -417,6 +400,42 @@ def containsProfanity(words):
 				return True
 			
 	return False
+	
+def containsMissingWords(line):
+	line = line.lower()
+	words = line.split()
+
+	for w in words:
+		if w == "\"\"" or w == "\"\"." or w == "\"\"," or w == "\"\";" or w == "\"\":" or w == "\"\"!"\
+		or w == "\"\"?" or w == "," or w == "." or w == "'s" or w.startswith("??") or w.startswith("\"??"):
+			return True
+			
+	criteria = ["over of", "on of", "with of", "by of", "between of", "between and", "and and", "of and", "of of",\
+	 "than and","than of", "of but", "about long", "about wide", "about tall", "about short", "about thick",\
+	 "about deep", "about high", "about in size", "about from", "about off", "approximately long", "approximately wide",\
+	 "approximately tall", "approximately short", "approximately thick", "approximately deep", "approximately high",\
+	 "approximately in size", "from in", "to in", "from inches", "is in size", "than in size", "measures high", "measures wide",\
+	 "measures long", "measures in size","measuring in", "measuring between", "of per", "elevation of in", "elevation of and",\
+	 "lies only from", "about downstream", "about upstream", "about north", "about south", "about east", "about west",\
+	 "about northwest", "about northeast","about southwest", "about southeast", "is in length", "of span", "is above sea level",\
+	 "about in area","approximately in area", "radius of from", "radius of and", "a area", "around long", "around wide",\
+	 "around tall", "around short", "around thick", "around deep", "around high", "around in size", "weighed around and",\
+	 "has of shoreline", "more than wide", "of include", "that and are", "nearly by road", "about of water", \
+	 "around of water", "approximately of water", "up to long", "up to wide", "up to tall", "up to thick", "up to deep", \
+	 "up to high", "up to in size", "of about and", "of about from", "of above sea level", "within of", "within a radius", \
+	 "and from the border", "and from the frontier", "covers of land", "covers of marine", "covers of grassland", \
+	 "covers of wetlands", "of rs", "is just long", "an estimated long", "an estimated wide", "an estimated tall", \
+	 "an estimated thick", "an estimated deep", "an estimated high", "an estimated in size", "to tall", "to diameter", \
+	 "the and", "weighs by", "engages over adults", "approximately to", "owned of land", \
+	 "is in height", "is in width", "is in depth", "cooked to mixed", "up to and", "approximately past the", "work in but", \
+	 "from to wide", "calculated at and", "to of", "height of made", "height of and" ]
+	 
+	for c in criteria:
+		if line.count(" " + c + " ") > 0 or line.startswith(c + " ") or line.endswith(" " + c):
+			return True
+	
+	return False
+
 	
 runScript()
 

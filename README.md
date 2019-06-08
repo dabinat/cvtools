@@ -42,7 +42,7 @@ Validation failed (length): Yipe!
 
 ### Where to get data
 
-Sentences are located in the [sever/data folder](https://github.com/mozilla/voice-web/tree/master/server/data) of [mozilla/voice-web](https://github.com/mozilla/voice-web).
+Sentences are located in the [server/data folder](https://github.com/mozilla/voice-web/tree/master/server/data) of [mozilla/voice-web](https://github.com/mozilla/voice-web).
 
 A text file of profanity can be found at [dabinat/profanity](https://github.com/dabinat/profanity).
 
@@ -93,7 +93,7 @@ on 150
 
 ### Where to get data
 
-Sentences are located in the [sever/data folder](https://github.com/mozilla/voice-web/tree/master/server/data) of [mozilla/voice-web](https://github.com/mozilla/voice-web).
+Sentences are located in the [server/data folder](https://github.com/mozilla/voice-web/tree/master/server/data) of [mozilla/voice-web](https://github.com/mozilla/voice-web).
 
 You can get a text file full of English words from [dwyl/english-words](https://github.com/dwyl/english-words). 
 

@@ -5,21 +5,24 @@ from collections import defaultdict
 
 input_file = ''
 dictionary_file = ''
+limit = 0
 
 try:
-	opts, args = getopt.getopt(sys.argv[1:],"i:d:",["input=","dictionary="])
+	opts, args = getopt.getopt(sys.argv[1:],"i:d:l",["input=","dictionary=","limit="])
 except getopt.GetoptError:
-	print('word_usage.py -i <input file> [-d <dictionary>]')
+	print('word_usage.py -i <input file> [-d <dictionary>] [--limit x]')
 	sys.exit(2)
 
 for opt, arg in opts:
 	if opt == '-h':
-		print('word_usage.py -i <input file> [-d <dictionary>]')
+		print('word_usage.py -i <input file> [-d <dictionary>] [--limit x]')
 		sys.exit()
 	elif opt in ("-i", "--input"):
 		input_file = arg
 	elif opt in ("-d", "--dictionary"):
 		dictionary_file = arg
+	elif opt in ("-l", "--limit"):
+		limit = int(arg)
 
 word_dict = defaultdict(int)
 
@@ -56,6 +59,10 @@ sorted_words = sorted(word_dict.items(), key=lambda x:x[0]);
 
 # Sort words by most to least frequent
 sorted_words = sorted(sorted_words, key=lambda x:x[1], reverse=True);
+
+# Set limit if specified
+if limit > 0 and len(sorted_words) > limit:
+	sorted_words = sorted_words[:limit]
 
 for word,num in sorted_words:
 	print("{} {}".format(word,num))

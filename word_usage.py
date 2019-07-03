@@ -35,6 +35,13 @@ with open(input_file) as f:
 			# Filter out symbols
 			w = re.sub('[^a-zA-Z\u00c0-\u024f\u1e00-\u1eff\']', '', w)
 		
+			# Ignore apostrophes at start or end
+			if len(w) > 1 and w[:1] == "'":
+				w = w[1:]
+				
+			if len(w) > 1 and w[-1] == "'":
+				w = w[:-1]
+		
 			if len(w) > 0:
 				val = word_dict[w]
 				val += 1

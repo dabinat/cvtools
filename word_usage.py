@@ -30,7 +30,7 @@ with open(input_file) as f:
 		
 		for w in words:
 			# Filter out symbols
-			w = re.sub('[^a-zA-Z\']', '', w)
+			w = re.sub('[^a-zA-Z\u00c0-\u024f\u1e00-\u1eff\']', '', w)
 		
 			if len(w) > 0:
 				val = word_dict[w]
@@ -44,7 +44,7 @@ if dictionary_file:
 			line = line.lower()
 			
 			# Filter out symbols
-			line = re.sub('[^a-zA-Z\']', '', line)
+			line = re.sub('[^a-zA-Z\u00c0-\u024f\u1e00-\u1eff\']', '', line)
 		
 			if len(line) > 0:
 				# Add word if it doesn't exist

@@ -6,16 +6,17 @@ from collections import defaultdict
 input_file = ''
 dictionary_file = ''
 limit = 0
+min_frequency = 0
 
 try:
-	opts, args = getopt.getopt(sys.argv[1:],"i:d:l",["input=","dictionary=","limit="])
+	opts, args = getopt.getopt(sys.argv[1:],"i:d:l:mf",["input=","dictionary=","limit=","min-frequency="])
 except getopt.GetoptError:
-	print('word_usage.py -i <input file> [-d <dictionary>] [--limit x]')
+	print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x]')
 	sys.exit(2)
 
 for opt, arg in opts:
 	if opt == '-h':
-		print('word_usage.py -i <input file> [-d <dictionary>] [--limit x]')
+		print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x]')
 		sys.exit()
 	elif opt in ("-i", "--input"):
 		input_file = arg
@@ -23,6 +24,8 @@ for opt, arg in opts:
 		dictionary_file = arg
 	elif opt in ("-l", "--limit"):
 		limit = int(arg)
+	elif opt in ("-mf", "--min-frequency"):
+		min_frequency = int(arg)
 
 word_dict = defaultdict(int)
 
@@ -54,7 +57,7 @@ with open(input_file) as f:
 				word_dict[w] = val
 
 # Scan dictionary if the user specified it (assumes one word per line)
-if dictionary_file:
+if min_frequency == 0 and dictionary_file:
 	with open(dictionary_file) as f:  
 		for line in f:
 			line = line.lower()
@@ -73,8 +76,19 @@ if dictionary_file:
 				val = word_dict[line]
 				word_dict[line] = val
 
+# Filter by min frequency
+filtered_words = defaultdict(int)
+
+if min_frequency > 0:
+	for word in word_dict:
+		if int(word_dict[word]) >= min_frequency:
+			filtered_words[word] = word_dict[word]
+else:
+	filtered_words = word_dict
+		
+
 # Now sort by alphabetical order of word
-sorted_words = sorted(word_dict.items(), key=lambda x:x[0]);
+sorted_words = sorted(filtered_words.items(), key=lambda x:x[0]);
 
 # Sort words by most to least frequent
 sorted_words = sorted(sorted_words, key=lambda x:x[1], reverse=True);

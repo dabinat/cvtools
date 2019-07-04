@@ -1,6 +1,6 @@
 # cvtools
 
-Scripts to get stats and validate data from Mozilla's [Common Voice](https://voice.mozilla.org) project.
+Scripts to get stats and validate data from Mozilla's [Common Voice](https://voice.mozilla.org) project. All scripts require Python 3.
 
 ## sentence_validator
 
@@ -53,12 +53,14 @@ Python script to get word usage stats from Mozilla's Common Voice [Sentence Coll
 ### Usage
 
 ~~~~
-word_usage.py -i <input_file> [-d <dictionary_file>]
+word_usage.py -i <input_file> [-d <dictionary_file>] [--limit x]
 ~~~~
 
 Input file is a text file with a sentence on each line.
 
 Dictionary file is optional and is a text file with a word on each line.
+
+Limit returns only the *x* most popular words.
 
 ### Output
 

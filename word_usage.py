@@ -28,7 +28,13 @@ word_dict = defaultdict(int)
 
 # Scan sentences
 with open(input_file) as f:  
-	for line in f:		
+	for line in f:
+		# Convert curly apostrophes to straight
+		line = line.replace(u"\u2018","'")
+		line = line.replace(u"\u2019","'")
+		line = line.replace(u"\u0060","'")
+		line = line.replace(u"\u00b4","'")
+	
 		words = line.lower().split()
 		
 		for w in words:
@@ -50,9 +56,15 @@ with open(input_file) as f:
 # Scan dictionary if the user specified it (assumes one word per line)
 if dictionary_file:
 	with open(dictionary_file) as f:  
-		for line in f:	
+		for line in f:
 			line = line.lower()
 			
+			# Convert curly apostrophes to straight
+			line = line.replace(u"\u2018","'")
+			line = line.replace(u"\u2019","'")
+			line = line.replace(u"\u0060","'")
+			line = line.replace(u"\u00b4","'")
+
 			# Filter out symbols
 			line = re.sub('[^a-zA-Z\u00c0-\u024f\u1e00-\u1eff\']', '', line)
 		

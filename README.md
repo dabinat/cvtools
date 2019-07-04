@@ -1,6 +1,6 @@
 # cvtools
 
-Scripts to get stats and validate data from Mozilla's [Common Voice](https://voice.mozilla.org) project.
+Scripts to get stats and validate data from Mozilla's [Common Voice](https://voice.mozilla.org) project. All scripts require Python 3.
 
 ## sentence_validator
 

@@ -53,16 +53,20 @@ Python script to get word usage stats from Mozilla's Common Voice [Sentence Coll
 ### Usage
 
 ~~~~
-word_usage.py -i <input_file> [-d <dictionary_file>] [--limit x] [--min-frequency x]
+word_usage.py -i <input_file> [-d <dictionary_file>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only]
 ~~~~
 
-Input file is a text file with a sentence on each line.
+`-i` - a text file with a sentence on each line.
 
-Dictionary file is optional and is a text file with a word on each line.
+`-d` - a text file with a word on each line (optional).
 
-Limit returns only the *x* most popular words.
+`--limit` - returns only the *x* most popular words.
 
-Min frequency returns only words that have at least *x* matches. (This causes the dictionary argument to be ignored because all missing dictionary words would have a frequency of 0.)
+`--min-frequency` - returns only words that have at least *x* matches. (This causes the dictionary argument to be ignored because all missing dictionary words would have a frequency of 0.)
+
+`--max-frequency` - returns only words with up to *x* matches.
+
+`--show-words-only` - outputs the word without the number of matches. Useful for piping a word list to a separate file.
 
 ### Output
 

@@ -7,25 +7,31 @@ input_file = ''
 dictionary_file = ''
 limit = 0
 min_frequency = 0
+max_frequency = 0
+words_only = 0
 
 try:
-	opts, args = getopt.getopt(sys.argv[1:],"i:d:l:mf",["input=","dictionary=","limit=","min-frequency="])
+	opts, args = getopt.getopt(sys.argv[1:],"i:d",["input=","dictionary=","limit=","min-frequency=","max-frequency=","show-words-only"])
 except getopt.GetoptError:
-	print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x]')
+	print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only]')
 	sys.exit(2)
 
 for opt, arg in opts:
 	if opt == '-h':
-		print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x]')
+		print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only]')
 		sys.exit()
 	elif opt in ("-i", "--input"):
 		input_file = arg
 	elif opt in ("-d", "--dictionary"):
 		dictionary_file = arg
-	elif opt in ("-l", "--limit"):
+	elif opt == "--limit":
 		limit = int(arg)
-	elif opt in ("-mf", "--min-frequency"):
+	elif opt == "--min-frequency":
 		min_frequency = int(arg)
+	elif opt == "--max-frequency":
+		max_frequency = int(arg)
+	elif opt == "--show-words-only":
+		words_only = 1
 
 word_dict = defaultdict(int)
 
@@ -76,16 +82,13 @@ if min_frequency == 0 and dictionary_file:
 				val = word_dict[line]
 				word_dict[line] = val
 
-# Filter by min frequency
+# Filter by min/max frequency
 filtered_words = defaultdict(int)
 
-if min_frequency > 0:
-	for word in word_dict:
-		if int(word_dict[word]) >= min_frequency:
-			filtered_words[word] = word_dict[word]
-else:
-	filtered_words = word_dict
-		
+for word in word_dict:
+	if (min_frequency == 0 or int(word_dict[word]) >= min_frequency) and \
+	(max_frequency == 0 or int(word_dict[word]) <= max_frequency):
+		filtered_words[word] = word_dict[word]		
 
 # Now sort by alphabetical order of word
 sorted_words = sorted(filtered_words.items(), key=lambda x:x[0]);
@@ -98,4 +101,7 @@ if limit > 0 and len(sorted_words) > limit:
 	sorted_words = sorted_words[:limit]
 
 for word,num in sorted_words:
-	print("{} {}".format(word,num))
+	if words_only:
+		print(word)
+	else:
+		print("{} {}".format(word,num))

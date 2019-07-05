@@ -12,13 +12,13 @@ Python script to filter out invalid sentences.
 sentence_validator.py -i <input_file> [--profanity-list <file>] [--output-success <output_file>] [--output-fail <output_file>]
 ~~~~
 
-Input file is a text file with a sentence on each line.
+`-i` - a text file with a sentence on each line.
 
-Profanity list (optional) is a text file with a word on each line. Specifying this option filters sentences containing words found in the text file.
+`--profanity-list` - (optional) a text file with a word on each line. Specifying this option filters sentences containing words found in the text file.
 
-Output success file (optional) specifies the file to write successfully validated sentences to.
+`--output-success` - (optional) specifies the file to write successfully validated sentences to.
 
-Output fail file (optional) specifies the file to write failed sentences to.
+`--output-fail` - (optional) specifies the file to write failed sentences to.
 
 ### Output
 

@@ -9,16 +9,17 @@ limit = 0
 min_frequency = 0
 max_frequency = 0
 words_only = False
+no_repeats = False
 
 try:
-	opts, args = getopt.getopt(sys.argv[1:],"i:d",["input=","dictionary=","limit=","min-frequency=","max-frequency=","show-words-only"])
+	opts, args = getopt.getopt(sys.argv[1:],"i:d",["input=","dictionary=","limit=","min-frequency=","max-frequency=","show-words-only","no-repeats"])
 except getopt.GetoptError:
-	print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only]')
+	print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--no-repeats]')
 	sys.exit(2)
 
 for opt, arg in opts:
 	if opt == '-h':
-		print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only]')
+		print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--no-repeats]')
 		sys.exit()
 	elif opt in ("-i", "--input"):
 		input_file = arg
@@ -32,6 +33,8 @@ for opt, arg in opts:
 		max_frequency = int(arg)
 	elif opt == "--show-words-only":
 		words_only = True
+	elif opt == "--no-repeats":
+		no_repeats = True
 
 word_dict = defaultdict(int)
 
@@ -45,6 +48,7 @@ with open(input_file) as f:
 		line = line.replace(u"\u00b4","'")
 	
 		words = line.lower().split()
+		repeat_list = []
 		
 		for w in words:
 			# Filter out symbols
@@ -58,6 +62,12 @@ with open(input_file) as f:
 				w = w[:-1]
 		
 			if len(w) > 0:
+				if no_repeats:
+					if w in repeat_list:
+						continue
+						
+					repeat_list.append(w)
+					
 				val = word_dict[w]
 				val += 1
 				word_dict[w] = val

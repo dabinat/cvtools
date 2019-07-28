@@ -8,7 +8,7 @@ dictionary_file = ''
 limit = 0
 min_frequency = 0
 max_frequency = 0
-words_only = 0
+words_only = False
 
 try:
 	opts, args = getopt.getopt(sys.argv[1:],"i:d",["input=","dictionary=","limit=","min-frequency=","max-frequency=","show-words-only"])
@@ -31,7 +31,7 @@ for opt, arg in opts:
 	elif opt == "--max-frequency":
 		max_frequency = int(arg)
 	elif opt == "--show-words-only":
-		words_only = 1
+		words_only = True
 
 word_dict = defaultdict(int)
 

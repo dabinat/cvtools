@@ -98,10 +98,14 @@ def runScript():
 				sub_words = re.split(r'-|\.{3}',last_word) # Split on - or ...
 				last_word = re.sub(r'[^[a-zA-Z.]','', sub_words[-1])
 				
-				if last_word == "." or last_word == "e.g." or last_word == "i.e." or last_word == "a.k.a" \
-				or last_word == "no." or last_word == "al." or last_word == "op." or last_word == "mr." \
-				or last_word == "and" or last_word == "including" or last_word == "a.o." \
-				or last_word == "xx.":
+				if last_word == "." or last_word == "," or last_word == "e.g." or last_word == "i.e." \
+				or last_word == "a.k.a" or last_word == "no." or last_word == "al." or last_word == "op." \
+				or last_word == "mr." or last_word == "mrs." or last_word == "Dr." or last_word == "and" \
+				or last_word == "including" or last_word == "a.o." or last_word == "xx." or words[-1] == "an.":
+					raise ValidationFailure("partial sentence")
+
+				# Look for punctuation indicative of truncation
+				if " -," in line or ":." in line or " ' " in line or " \" " in line:
 					raise ValidationFailure("partial sentence")
 				
 				# Check if too short or too long

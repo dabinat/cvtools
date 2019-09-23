@@ -46,14 +46,17 @@ with open(input_file) as f:
 		line = line.replace(u"\u2019","'")
 		line = line.replace(u"\u0060","'")
 		line = line.replace(u"\u00b4","'")
-	
+
+		# Filter out symbols
+		line = re.sub("[^a-zA-Z\u00c0-\u024f\u1e00-\u1eff']", " ", line)
+
+		# Remove any double spaces introduced by last regex
+		line = re.sub("\ {2,}", " ", line)
+			
 		words = line.lower().split()
 		repeat_list = []
 		
 		for w in words:
-			# Filter out symbols
-			w = re.sub('[^a-zA-Z\u00c0-\u024f\u1e00-\u1eff\']', '', w)
-		
 			# Ignore apostrophes at start or end
 			if len(w) > 1 and w[:1] == "'":
 				w = w[1:]

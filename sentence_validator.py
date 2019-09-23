@@ -148,12 +148,34 @@ def runScript():
 				if not (last_char == "." or last_char == "!" or last_char == "?" or last_char == "'" or last_char == '"'):
 					raise ValidationFailure("punctuation")
 					
+				# Look for too many apostrophes
+				for word in words:
+					# Remove surrounding quotes
+					if word.startswith("'"):
+						word = word[1:]
+					
+					if word.endswith("'"):
+						word = word[0:-1]
+
+					if word.endswith("'s") or word.endswith("'t"):
+						word = word[0:-2]
+
+					if word.endswith("'ve"):
+						word = word[0:-3]
+					
+					if word.lower().count("'") > 2 and word.lower().count("'n'") == 0:
+						raise ValidationFailure("too many apostrophes")
+
 				# Look for missing words
 				if containsMissingWords(line):
 						raise ValidationFailure("missing word")
 					
 				# Check for possible foreign terms (e.g. Persona y Sociedad)
 				if containsForeignTerm(words):
+						raise ValidationFailure("foreign term")
+					
+				# Check for non-standard apostrophe use
+				if not re.search(r"[^s^O^n^d^y^a^-^\"^\s]'[^t^s^r^m^l^v^d^a^e^n^c^\s^,^\.^\?^\!^\:^\;^\"^-]", line) == None:
 						raise ValidationFailure("foreign term")
 					
 				# Check for profanity

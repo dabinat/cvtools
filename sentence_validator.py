@@ -222,6 +222,8 @@ def expandAbbreviations(line):
 	line = line.replace(".ca"," dot ca")
 	line = line.replace(".fm"," dot fm")
 	line = line.replace(".gov"," dot gov")
+	line = line.replace(".io"," dot io")
+	line = line.replace(".tv"," dot tv")
 	line = line.replace("www.","www dot ")
 
 	# Roman numerals
@@ -300,6 +302,8 @@ def expandAbbreviations(line):
 			out_word = "Number"
 		elif w == "Nos.":
 			out_word = "Numbers"
+		elif w == "nos.":
+			out_word = "numbers"
 		elif w == "no.":
 			out_word = "number"
 		elif w == "Mt" or w == "Mt.":
@@ -312,7 +316,7 @@ def expandAbbreviations(line):
 			out_word = "Captain"
 		elif w == "Col" or w == "Col.":
 			out_word = "Colonel"
-		elif w == "Lt" or w == "Lt.":
+		elif w == "Lt" or w == "Lt." or w == "Lieut.":
 			out_word = "Lieutenant"
 		elif w == "Sgt" or w == "Sgt.":
 			out_word = "Sergeant"
@@ -356,7 +360,7 @@ def expandAbbreviations(line):
 			out_word = "California"
 		elif w == "Co.":
 			out_word = "Company"
-		elif w == "Hon.":
+		elif w == "Hon." or w == "Hon":
 			out_word = "Honorable"
 		elif w == "Inc.":
 			out_word = "Incorporated"
@@ -372,6 +376,10 @@ def expandAbbreviations(line):
 			out_word = w[:-3] + "Saint"
 		elif w == "Sts" or w == "Sts.":
 			out_word = "Saints"
+		elif w == "Ft" or w == "Ft.":
+			out_word = "Fort"
+		elif w.endswith("Ft."):
+			out_word = w[:-3] + "Fort"
 		elif w == "Ltd" or w == "Ltd.":
 			out_word = "Limited"
 		elif w == "Ltd's":
@@ -386,7 +394,7 @@ def expandAbbreviations(line):
 			out_word = "Corporation"
 		elif w == "Pfc.":
 			out_word = "Private first class"
-		elif w == "approx.":
+		elif w == "approx." or w == "appr.":
 			out_word = "approximately"
 		elif w == "Approx.":
 			out_word = "Approximately"
@@ -418,6 +426,8 @@ def expandAbbreviations(line):
 			out_word = "Boulevard"
 		elif w == "Lt.Col.":
 			out_word = "Lieutenant Colonel"
+		elif w == "Lieut-Col.":
+			out_word = "Lieutenant Colonel"
 		elif w == "Eq.":
 			out_word = "Equation"
 		elif w == "eq.":
@@ -428,9 +438,9 @@ def expandAbbreviations(line):
 			out_word = "Opus"
 		elif w == "Opp.":
 			out_word = "Opuses"
-		elif w == "Mk.":
+		elif w == "Mk." or w == "Mk":
 			out_word = "Mark"
-		elif w == "mk.":
+		elif w == "mk." or w == "mk":
 			out_word = "mark"
 		elif w == "Hwy" or w == "Hwy.":
 			out_word = "Highway"
@@ -442,12 +452,16 @@ def expandAbbreviations(line):
 			out_word = "Generals"
 		elif w == "Prof" or w == "Prof.":
 			out_word = "Professor"
-		elif w == "Cdr.":
+		elif w == "Cdr." or w == "Cmdr." or w == "Comdr." or w == "Cdr":
 			out_word = "Commander"
 		elif w == "d.b.a.":
 			out_word = "doing business as"
 		elif w == "a.k.a.":
 			out_word = "also known as"
+		elif w == "i.e.":
+			out_word = "that is"
+		elif w == "i.a.":
+			out_word = "among others"
 		elif w == "c.o.":
 			out_word = "County"
 		elif w == "viz.":
@@ -458,6 +472,8 @@ def expandAbbreviations(line):
 			out_word = "John"
 		elif w == "ed.":
 			out_word = "edition"
+		elif w == "Ed.":
+			out_word = "Edition"
 		elif w == "rev.":
 			out_word = "revision"
 		elif w == "Dt.":
@@ -466,8 +482,86 @@ def expandAbbreviations(line):
 			out_word = "Detectives"
 		elif w == "sp.":
 			out_word = "spelling"
+		elif w == "Jct." or w == "Jcn.":
+			out_word = "Junction"
+		elif w == "Rs.":
+			out_word = "rupees"
+		elif w == "Est.":
+			out_word = "Established"
+		elif w == "var.":
+			out_word = "variety"
+		elif w == "Var.":
+			out_word = "Variation"
+		elif w == "Jkr.":
+			out_word = "Junker"
+		elif w == "Retd.":
+			out_word = "Retired"
+		elif w == "Gov.":
+			out_word = "Governor"
+		elif w == "Atty.":
+			out_word = "Attorney"
+		elif w == "Adml.":
+			out_word = "Admiral"
+		elif w == "Adv.":
+			out_word = "Advocate"
+		elif w == "Skr.":
+			out_word = "Skipper"
+		elif w == "Br.":
+			out_word = "Brother"
+		elif w == "Md.":
+			out_word = "Maryland"
+		elif w == "Md.,":
+			out_word = "Maryland,"
+		elif w == "Pres.":
+			out_word = "President"
+		elif w == "pres.":
+			out_word = "president"
+		elif w == "Ore.":
+			out_word = "Oregon"
+		elif w == "Lv." or w == "Lvl.":
+			out_word = "Level"
+		elif w == "Rd." or w == "Rd":
+			out_word = "Road"
+		elif w == "Ln." or w == "Ln":
+			out_word = "Lane"
+		elif w == "Ave." or w == "Ave":
+			out_word = "Avenue"
+		elif w == "spp.":
+			out_word = "species"
+		elif w == "ssp." or w == "subsp.":
+			out_word = "subspecies"
+		elif w == "Adj.":
+			out_word = "Adjudicator"
+		elif w == "Sec.":
+			out_word = "Section"
+		elif w == "iii.":
+			out_word = "three"
+		elif w == "iv.":
+			out_word = "four"
+		elif w == "vi.":
+			out_word = "six"
+		elif w == "vii.":
+			out_word = "seven"
+		elif w == "viii.":
+			out_word = "eight"
+		elif w == "ix.":
+			out_word = "nineteen"
+		elif w == "xi.":
+			out_word = "twenty-two"
+		elif w == "xiii.":
+			out_word = "twenty-three"
+		elif w == "xiv.":
+			out_word = "twenty-four"
+		elif w == "xv.":
+			out_word = "twenty-five"
+		elif w == "xvi.":
+			out_word = "twenty-six"
+		elif w == "xvii.":
+			out_word = "twenty-seven"
+		elif w == "xviii.":
+			out_word = "twenty-eight"
 
-		out_words.append(out_word)
+		out_words.append(start_punctuation + out_word + end_punctuation)
 		
 	return " ".join(out_words)
 	

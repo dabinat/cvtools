@@ -212,26 +212,6 @@ def runScript():
 
 def expandAbbreviations(line):
 	# Find and replace common terms
-	line = line.replace("World War II","World War Two")
-	line = line.replace("World War I","World War One")
-	line = line.replace("Grade II","Grade Two")
-	line = line.replace("Grade I","Grade One")
-	line = line.replace("grade II","grade two")
-	line = line.replace("grade I","grade one")
-	line = line.replace("Type I","Type One")
-	line = line.replace("Type II","Type Two")
-	line = line.replace("type I","type one")
-	line = line.replace("type II","type two")
-	line = line.replace("Category I","Category One")
-	line = line.replace("Category II","Category Two")
-	line = line.replace("category I","category one")
-	line = line.replace("category II","category two")
-	line = line.replace("Model I","Model One")
-	line = line.replace("Schedule I","Schedule One")
-	line = line.replace("Schedule II","Schedule Two")
-	line = line.replace("Class I","Class One")
-	line = line.replace("Class II","Class Two")
-	line = line.replace("Class III","Class Three")
 	line = line.replace(".com"," dot com")
 	line = line.replace(".net"," dot net")
 	line = line.replace(".org"," dot org")
@@ -243,22 +223,49 @@ def expandAbbreviations(line):
 	line = line.replace(".fm"," dot fm")
 	line = line.replace(".gov"," dot gov")
 	line = line.replace("www.","www dot ")
-	line = line.replace("Charles I ","Charles the First ")
-	line = line.replace("Charles I.","Charles the First.")
-	line = line.replace("James I ","James the First ")
-	line = line.replace("James I.","James the First.")
-	line = line.replace("John I ","John the First ")
-	line = line.replace("John I ","John the First ")
-	line = line.replace("Mary I ","Mary the First ")
-	line = line.replace("Elizabeth I ","Elizabeth the First ")
-	line = line.replace("Henry I ","Henry the First ")
-	line = line.replace("Henry V ","Henry the Fifth ")
-	line = line.replace("Edward I ","Edward the First ")
-	line = line.replace("Albert I ","Albert the First ")
-	line = line.replace("Louis I ","Louis the First ")
-	line = line.replace("Louis V ","Louis the Fifth ")
-	line = line.replace("Mehmed V ","Mehmed the Fifth ")
-	line = line.replace("Napoleon I ","Napoleon the First ")
+
+	# Roman numerals
+	prefixes = ["War","Grade","grade","Type","type","Category","category","Model","Schedule","Class","Sermon","Section","Group","group","District",\
+							"Part","part","Title","title","Phase","phase","prophase","Level","level","Ultima","Saturn","Palm","Bowl","Book","book","Corridor","Region", \
+							"Annex","Atlas","Ares","Mark","Zone","Division","Icarus","Falcon","WrestleMania","Article","Legio","Merlin","Metro","Chapter","Apple","Luft", \
+							"Panzer","Tysons","Turbo","Genesis","form","Form","Act","Budapest","FreeDonia","Dalek","Star","Berdan","Bratislava","Discoverer","Offset", \
+							"Municipio","Liga","Cullinan","Technology","Company"]
+	numerals = [{"from":"I","to":"One"},{"from":"II","to":"Two"},{"from":"III","to":"Three"},{"from":"IV","to":"Four"},{"from":"V","to":"Five"}]
+
+	for i in numerals:
+		for prefix in prefixes:
+			to_text = i["to"]
+			# Match case
+			if prefix.lower() == prefix:
+				to_text = to_text.lower()
+			
+			line = line.replace(prefix + " " + i["from"] + " ",prefix + " " + to_text + " ")
+
+	# Monarchs
+	prefixes = ["Charles","James","John","Mary","Elizabeth","Henry","Edward","Albert","Louis","Mehmed","Napoleon","Murad","Danilo","Ahmose","Leo", \
+							"Bayezid","Valentinian","Nepherites","Volkaert","Pedro","Frederick","Ptolemy","Baldwin","William","Paul","Nicholas","Celestine", \
+							"George","Ferdinand","Ivid","Harald","Baldwin","Antiochus","Gustaf","Christian","Martin","Abgar","Philip","Ladislaus","Mohammed", \
+							"Muhammed","Jan","Floris","Walter","Afonso","Hugh","Mithridates","Dirk","Peter","Mohamed","Ramesses","Paerisades","Regio","Leopold", \
+							"Amenemhat","Harrison","Frederik","Bagrat","Bahram","Alfonso","Pelagius","Paschal","Otto","Victor","Ramiro","David","Francis","Alberic", \
+							"Demetrius","Tukulti-Ninurta","Ermengol","Mahmud","Yazdegerd","Ranavalona","Radama","Alexander","Alfred","Leka","Ladislaus","Simeon","Asen",\
+							"Darius","Cleombrotus","Sargon","Abbas","Harshavarman","Moctezuma","Prijezda","Willford","Chandragupta","Mestwin","Eupolypods","Robert", \
+							"Nahb","Augustus","Celebrezze","Kamehameha","Antimachus","Apollodotus","Psamtik","Dmitry","Selassie","Osroes","Johann", \
+							"Thutmose","Pepi","Al-Hakam","Dagobert","Murad","Selim","Constantine","Chola","Sigebert","Charibert","Fasciculus","Rasmussen","Rama", \
+							"Theodosius","Mentuhotep","Neferu","Eudamidas","Cosimo","Vonones","Demetre","Radama","Compton","Thomas","Schneider","Shoshenq","Seyon", \
+							"Yeshaq","Ruben","Acrotatus","Selene","Badi","Roosevelt","Jifar","Argishti","Mueenuddeen","Ernest","Mansur","Stateira","Justinian", \
+							"Kamehameha","Xerxes","Bernhard","Psusennes","Ariamnes","Nuh","Gould","ad-Din","Maximilian","Nebuchadnezzar","Jerome","Bogdan","Aripert", \
+							"Carlos","Amoghavarsha","Rudolf","Pedro","Faustin","Seti","Sanpei","Seleucus","Felix","Lothair","Basil","Carol","Michael"] 
+	numerals = [{"from":"I","to":"the First"},{"from":"II","to":"the Second"},{"from":"III","to":"the Third"},{"from":"IV","to":"the Fourth"},{"from":"V","to":"the Fifth"},\
+						{"from":"VI","to":"the Sixth"},{"from":"VII","to":"the Seventh"},{"from":"VIII","to":"the Eighth"},{"from":"IX","to":"the Ninth"},{"from":"X","to":"the Tenth"}]
+
+	for prefix in prefixes:
+		# This is expensive so only do the regex if there's a match
+		if prefix + " " in line:
+			print("found " + prefix + " in line " + line)
+			
+			for i in numerals:
+				# Match for "Charles I" but not "Charles I. Smith"
+				line = re.sub(prefix + "\ " + i["from"] + "(?=[\.]$|\ |,|:|;|\!|'|\")", prefix + " " + i["to"], line)
 
 	source_words = line.split()	
 	out_words = [];

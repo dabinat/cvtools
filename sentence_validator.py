@@ -79,6 +79,8 @@ def runScript():
 				if line.count("\"") == 1:
 					line = line.replace("\"","")
 				line = line.replace("\"\"","\"")
+				line = line.replace("''","'")
+				line = line.replace("''","\"")
 
 				# Replace abbreviated words
 				line = expandAbbreviations(line)

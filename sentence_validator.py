@@ -85,6 +85,10 @@ def runScript():
 				# Replace abbreviated words
 				line = expandAbbreviations(line)
 
+				# Fix punctuation spacing
+				line = re.sub(r',(?=\w)', ', ', line)
+#				line = re.sub(r'(?<=[^\.])\.(?=\S[^\"\.])', '. ', line)
+
 				words = line.split()
 				word_count = len(words)
 				char_count = len(line)

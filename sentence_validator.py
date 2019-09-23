@@ -271,15 +271,30 @@ def expandAbbreviations(line):
 	out_words = [];
 	
 	for w in source_words:
+		start_punctuation = ""
+		end_punctuation = ""
+
+		if w[0] == "\"" or w[0] == "'":
+			start_punctuation = w[0]
+			w = w[1:]
+		
+		if len(w) > 2 and (w[-2] == "'s"):
+			end_punctuation = w[-2]
+			w = w[:-2]
+
+		if len(w) > 0 and (w[-1] == "," or w[-1] == "!" or w[-1] == "\"" or w[-1] == "'"):
+			end_punctuation = w[-1] + end_punctuation
+			w = w[:-1]
+
 		out_word = w
 		
 		if w == "&":
 			out_word = "and"
 		elif w.count("&") > 0:
 			out_word = w.replace("&"," and ")
-		elif w == "Jr" or w == "Jr." or w == "Jr.,":
+		elif w == "Jr" or w == "Jr.":
 			out_word = "Junior"
-		elif w == "Sr" or w == "Sr." or w == "Sr.,":
+		elif w == "Sr" or w == "Sr.":
 			out_word = "Senior"
 		elif w == "No." or w == "Nr.":
 			out_word = "Number"
@@ -293,10 +308,6 @@ def expandAbbreviations(line):
 			out_word = "Mounts"
 		elif w == "Bros" or w == "Bros.":
 			out_word = "Brothers"
-		elif w == "Bros," or w == "Bros.,":
-			out_word = "Brothers,"
-		elif w == "Bros\"" or w == "Bros.\"":
-			out_word = "Brothers\""
 		elif w == "Capt" or w == "Capt.":
 			out_word = "Captain"
 		elif w == "Col" or w == "Col.":
@@ -319,8 +330,6 @@ def expandAbbreviations(line):
 			out_word = "Reverend"
 		elif w == "Vol" or w == "Vol.":
 			out_word = "Volume"
-		elif w == "\"Vol.":
-			out_word = "\"Volume"
 		elif w == "vol" or w == "vol.":
 			out_word = "volume"
 		elif w == "Ch.":
@@ -339,8 +348,6 @@ def expandAbbreviations(line):
 			out_word = "Government"
 		elif w == "Dr" or w == "Dr.":
 			out_word = "Doctor"
-		elif w == "\"Dr.":
-			out_word = "\"Doctor"
 		elif w == "Drs" or w == "Drs.":
 			out_word = "Doctors"
 		elif w == "ca.":
@@ -351,7 +358,7 @@ def expandAbbreviations(line):
 			out_word = "Company"
 		elif w == "Hon.":
 			out_word = "Honorable"
-		elif w == "Inc." or w == "Inc.,":
+		elif w == "Inc.":
 			out_word = "Incorporated"
 		elif w == "v." or w == "vs" or w == "vs.":
 			out_word = "versus"
@@ -361,8 +368,8 @@ def expandAbbreviations(line):
 			out_word = "Monsignor"
 		elif w == "St" or w == "St.":
 			out_word = "Saint"
-		elif w == "\"St" or w == "\"St.":
-			out_word = "\"Saint"
+		elif w.endswith("St."):
+			out_word = w[:-3] + "Saint"
 		elif w == "Sts" or w == "Sts.":
 			out_word = "Saints"
 		elif w == "Ltd" or w == "Ltd.":

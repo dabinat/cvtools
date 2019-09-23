@@ -53,9 +53,12 @@ def runScript():
 	with open(input_file) as f:  
 		for line in f:
 			try:
+				line = line.strip()
+				
 				# Tidy up sentence endings
-				if line.endswith("!.") or line.endswith("?."):
+				if line.endswith("!.") or line.endswith("?.") or line.endswith(",."):
 					line = line[:-1]
+				line = re.sub(r"[^\.]\.{2}$", ".", line)
 							
 				# Replace stylized symbols
 				line = line.replace(u"\u2018","'")

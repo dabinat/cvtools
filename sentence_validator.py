@@ -119,7 +119,7 @@ def runScript():
 					for sw in sub_words:
 						sw = re.sub(r'[^[a-zA-Z]','', sw)
 
-						if len(sw) > 15:
+						if lengthCheck(sw):
 							raise ValidationFailure("word length")
 		
 				# Check for non-English chars
@@ -562,6 +562,28 @@ def containsMissingWords(line):
 	
 	return False
 
+def lengthCheck(word):
+	word = word.lower()
+
+	# Remove common prefixes like "un"
+	prefixes = ["un", "re", "anti", "straight", "super", "extra", "inter", "dis", "math", "in", "circum", "const", "pre", "non", "counter", "radio", "intel", \
+	"semi", "con", "business"]
+	
+	for prefix in prefixes:
+		if word.startswith(prefix):
+			word = word[len(prefix):]
+
+	# Remove common suffixes like "ing"
+	suffixes = ["es", "ness", "s", "'s", "ised", "ized", "ise", "ize", "ed", "en", "ism", "ing", "ly", "ion", "al", "ity", "y", "ment", "ic", "ive", "ist", \
+	"ar", "ible", "able", "re", "ce", "er", "or", "an", "burg", "ship", "ous", "ia", "borough", "land", "town", "ville", "house", "person", "people", "ton", "son", \
+	"mouth", "foot", "waite", "worth", "ham", "dale", "point", "stead"]
+	
+	for suffix in suffixes:
+		if word.endswith(suffix):
+			suffix_length = len(suffix) * -1
+			word = word[:suffix_length]
+			
+	return len(word) > 13
 	
 runScript()
 

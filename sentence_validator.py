@@ -137,7 +137,8 @@ def runScript():
 						raise ValidationFailure("partial sentence")
 						
 				# Check if it starts with an obviously wrong character
-				if first_char == "," or first_char == "." or first_char == ";" or first_char == ":" or first_char == "-":
+				if first_char == "," or first_char == "." or first_char == ";" or first_char == ":" or first_char == "-" or first_char == "';" \
+				or first_char == "'\"" or first_char == "\",":
 					raise ValidationFailure("partial sentence")
 
 				if len(line) > 2 and (line[:2] == ("' ") or line[:2] == ("\" ") or line[:2] == ("',")):
@@ -692,8 +693,8 @@ def containsMissingWords(line):
 	words = line.split()
 
 	for w in words:
-		if w == "\"\"" or w == "\"\"." or w == "\"\"," or w == "\"\";" or w == "\"\":" or w == "\"\"!"\
-		or w == "\"\"?" or w == "," or w == "." or w == "'s" or w.startswith("??") or w.startswith("\"??"):
+		if w == "\"\"" or w == "\"\"." or w == "\"\"," or w == "\"\";" or w == "\"\":" or w == "\"\"!" or w == "'" \
+		or w == "\"\"?" or w == "," or w == "." or w == "'s" or w == "\"\"," or w.startswith("??") or w.startswith("\"??"):
 			return True
 			
 	criteria = ["over of", "on of", "with of", "by of", "between of", "between and", "and and", "of and", "of of",\
@@ -703,18 +704,56 @@ def containsMissingWords(line):
 	 "approximately in size", "from in", "to in", "from inches", "is in size", "than in size", "measures high", "measures wide",\
 	 "measures long", "measures in size","measuring in", "measuring between", "of per", "elevation of in", "elevation of and",\
 	 "lies only from", "about downstream", "about upstream", "about north", "about south", "about east", "about west",\
-	 "about northwest", "about northeast","about southwest", "about southeast", "is in length", "of span", "is above sea level",\
-	 "about in area","approximately in area", "radius of from", "radius of and", "a area", "around long", "around wide",\
-	 "around tall", "around short", "around thick", "around deep", "around high", "around in size", "weighed around and",\
-	 "has of shoreline", "more than wide", "of include", "that and are", "nearly by road", "about of water", \
-	 "around of water", "approximately of water", "up to long", "up to wide", "up to tall", "up to thick", "up to deep", \
-	 "up to high", "up to in size", "of about and", "of about from", "of above sea level", "within of", "within a radius", \
-	 "and from the border", "and from the frontier", "covers of land", "covers of marine", "covers of grassland", \
-	 "covers of wetlands", "of rs", "is just long", "an estimated long", "an estimated wide", "an estimated tall", \
-	 "an estimated thick", "an estimated deep", "an estimated high", "an estimated in size", "to tall", "to diameter", \
-	 "the and", "weighs by", "engages over adults", "approximately to", "owned of land", \
-	 "is in height", "is in width", "is in depth", "cooked to mixed", "up to and", "approximately past the", "work in but", \
-	 "from to wide", "calculated at and", "to of", "height of made", "height of and" ]
+	 "about northwest", "about northeast","about southwest", "about southeast", "approximately north", "approximately south", \
+	 "approximately east", "approximately west", "approximately northwest", "approximately northeast","approximately southwest",\
+	 "approximately southeast", "is in length", "of span", "is above sea level", "about in area","approximately in area", \
+	 "radius of from", "radius of and", "a area", "around long", "around wide", "around tall", "around short", "around thick", \
+	 "around deep", "around high", "around in size", "around in diameter", "weighed around and", "has of shoreline", "more than wide", "of include", \
+	 "that and are", "nearly by road", "about of", "around of", "approximately of", "up to long", \
+	 "up to wide", "up to tall", "up to thick", "up to deep", "up to high", "up to in size", "of about and", "of about from", \
+	 "of above sea level", "within of", "within a radius", "and from the border", "and from the frontier", "covers of land", \
+	 "covers of marine", "covers of grassland", "covers of wetlands", "of rs", "is just long", "an estimated long", \
+	 "an estimated wide", "an estimated tall", "an estimated thick", "an estimated deep", "an estimated high", \
+	 "an estimated in size", "to tall", "to diameter", "the and", "weighs by", "engages over adults", "approximately to", \
+	 "owned of land", "is in height", "is in width", "is in depth", "cooked to mixed", "up to and", "approximately past the", \
+	 "work in but", "from to wide", "calculated at and", "to of", "height of made", "height of and", "deep and in diameter", \
+	 "to about before", "by in", "than in diameter", "distance of from", "distance of to", "are in diameter", \
+	 "of nearly above sea level", "of nearly below sea level", "about later", "is some long", "of is", "located on owned", \
+	 "bulkheads thick", "located from", "than tall", "than thick", "than thin", "than short", "than long", "few off", \
+	 "temperature of during", "precipitation is with", "long by in", "between per", "averages per", "about away", \
+	 "less than in", "more than in", "from about up", "of around from", "reach of length", "other than are", "about away", \
+	 "the which", "around above", "around below", "about per", "are there are", "for for", "over while", "about inland", \
+	 "to as", "at on", "by be", "in by", "about apart", "to accompanied", "on bordering", "greater than favor", \
+	 "more than thick", "are there are", "roughly wide", "roughly long", "roughly high", "roughly tall", "roughly deep", \
+	 "roughly short", "roughly from", "are each while", "to during", "to after", "to before", "averages of rain", \
+	 "dived to and", "in as", "approximately from", "ranging from long", "ranging from deep", "ranging from tall", \
+	 "ranging from wide", "to via", "of at", "at at", "with in", "is located is", "approximately below", "measuring deep", \
+	 "measuring long", "measuring wide", "measuring tall", "produce of thrust", "produce of torque", "of is", "the in", \
+	 "they and are", "nearly of", "between tall", "between wide", "between deep", "between high", "between low", \
+	 "weigh and", "averages annually", "carried of fuel", "of the his", "of the her", "far as away", "measured at long", \
+	 "for about to", "temperatures above are", "approximately westward", "approximately eastward", "approximately northward", \
+	 "approximately southward", "rainfall was in one", "strength of has", "about below", "encompasses of land", "of on", \
+	 "over with higher", "estimated around and", "is in span", "is otherwise is", "can reach high", "can reach tall", \
+	 "can reach wide", "can reach deep", "located from", "-long", "-wide", "-deep", "-tall", "-high", "from of", \
+	 "less than long", "less than high", "less than deep", "less than tall", "greater than on", "less than on", \
+	 "more than on", "elevation of above", "elevation of below", "for from", "to above sea level", "to below sea level", \
+	 "to above ground level", "to below ground level", "less than to", "more than to", "greater than to", "is only away", \
+	 "about north", "about south", "about east", "about west", "the and", "is only wide", "is only long", "is only high", \
+	 "in of grounds", "remains above through", "remains above throughout", "remains below through", "remains below throughout", \
+	 "weigh and are", "up to of", "are of", "some north", "some east", "some south", "some west", "some northeast", "some northwest", \
+	 "some southeast", "some southwest", "over in size", "over in width", "over in height", "over in depth", "about of", \
+	 "services to will", "length of or", "width of or", "depth of or" "height of or", "from to", "area of in", "consists of in", \
+	 "average of in", "average low of in", "average high of in", "maximum of in", "minimum of in", "neighborhood of in", "speed of in", \
+	 "purchase of in", "survivors of in", "altitude of in", "out of in", "temperature of in", "depth of in", "arrival of in", "heights of in", \
+	 "peaks of in", "excess of in", "sources of in", "amplitude of in", "pronunciation of in", "temperate of in", \
+	 "record of in", "distance of in", "depths of in", "basin of in", "suburb of in", "levels of in", "levels of in", "wingspan of in", \
+	 "role of in", "total of in", "capable of in", "January of in", "consisted of in", "top of in", "length of in", "at in length", "highs around and", \
+	 "orbits at and", "between in diameter", "estimated as from", "given as from", "approximately in diameter", "born on in", "approximately north east", \
+	 "it is and", "of another north", "of another east", "of another south", "of another west", "varies from throughout", "as far as away", "at is", \
+	 "speed of has", "between in elevation", "comprised about or", "in the at", "long by wide", "its length is and", "its width is and", \
+	 "its depth is and", "its height is and"]
+	 
+	line = re.sub(r'[^[a-zA-Z]','', line).lower()
 	 
 	for c in criteria:
 		if line.count(" " + c + " ") > 0 or line.startswith(c + " ") or line.endswith(" " + c):

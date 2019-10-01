@@ -13,6 +13,9 @@ no_repeats = False
 
 
 def clean(line, split=False):
+    # Remove apostrophes to split words cutted
+    line = line.replace("'", " ")
+
     # Convert curly apostrophes to straight
     line = line.replace(u"\u2018", "'")
     line = line.replace(u"\u2019", "'")

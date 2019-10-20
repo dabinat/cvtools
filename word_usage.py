@@ -72,18 +72,17 @@ with open(input_file) as f:
         for w in words:
             # Ignore apostrophes at start or end
             if len(w) > 1 and w[:1] == "'":
-                w = w[1:]
-
+                w = w[1:]    
             if len(w) > 1 and w[-1] == "'":
                 w = w[:-1]
-
-            if len(w) > 0:
+        
+            if len(w) > 0 and w != "'":
                 if no_repeats:
                     if w in repeat_list:
                         continue
-
+                        
                     repeat_list.append(w)
-
+                    
                 val = word_dict[w]
                 val += 1
                 word_dict[w] = val
@@ -93,7 +92,6 @@ if min_frequency == 0 and dictionary_file:
     with open(dictionary_file) as f:
         for line in f:
             line = clean(line)
-
             if len(line) > 0:
                 # Add word if it doesn't exist
                 val = word_dict[line]

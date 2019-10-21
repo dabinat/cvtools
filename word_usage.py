@@ -36,15 +36,19 @@ def clean(line, split=False):
     return line
 
 
+def printhelp():
+    print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--strip-by-apostrophe] [--no-repeats]')
+
+
 try:
-    opts, args = getopt.getopt(sys.argv[1:],"i:d",["input=","dictionary=","limit=","min-frequency=","max-frequency=","show-words-only","no-repeats"])
+    opts, args = getopt.getopt(sys.argv[1:],"i:d",["input=","dictionary=","limit=","min-frequency=","max-frequency=","show-words-only","strip-by-apostrophe","no-repeats"])
 except getopt.GetoptError:
-    print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--no-repeats]')
+    printhelp()
     sys.exit(2)
 
 for opt, arg in opts:
     if opt == '-h':
-        print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--no-repeats]')
+        printhelp()
         sys.exit()
     elif opt in ("-i", "--input"):
         input_file = arg

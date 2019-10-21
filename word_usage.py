@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys, getopt, re
+import sys, getopt, re, os
 from collections import defaultdict
 
 input_file = ''
@@ -66,6 +66,10 @@ for opt, arg in opts:
         no_repeats = True
 
 word_dict = defaultdict(int)
+
+if not os.path.exists(input_file):
+    printhelp()
+    sys.exit(2)    
 
 # Scan sentences
 with open(input_file) as f:

@@ -10,6 +10,7 @@ min_frequency = 0
 max_frequency = 0
 words_only = False
 no_repeats = False
+split_apostrophe = False
 
 
 def clean(line, split=False):
@@ -60,6 +61,8 @@ for opt, arg in opts:
         min_frequency = int(arg)
     elif opt == "--max-frequency":
         max_frequency = int(arg)
+    elif opt == "--strip-by-apostrophe":
+        split_apostrophe = True
     elif opt == "--show-words-only":
         words_only = True
     elif opt == "--no-repeats":
@@ -74,7 +77,7 @@ if not os.path.exists(input_file):
 # Scan sentences
 with open(input_file) as f:
     for line in f:
-        words = clean(line, True)
+        words = clean(line, split_apostrophe)
         repeat_list = []
 
         for w in words:

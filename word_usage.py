@@ -13,7 +13,7 @@ no_repeats = False
 split_by_apostrophe = False
 
 
-def clean(line, split=False):
+def clean(line):
     # Remove apostrophes to split words cutted
     line = line.replace("'", " ")
 
@@ -31,11 +31,14 @@ def clean(line, split=False):
 
     line = line.lower()
 
-    if split:
-        return line.split()
-
     return line
 
+def clean_and_split(line, split=False):
+    line = clean(line)
+    if split:
+        return line.split()
+    
+    return line
 
 def printhelp():
     print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--strip-by-apostrophe] [--no-repeats]')
@@ -77,7 +80,7 @@ if not os.path.exists(input_file):
 # Scan sentences
 with open(input_file) as f:
     for line in f:
-        words = clean(line, split_by_apostrophe)
+        words = clean_and_split(line, split_by_apostrophe)
         repeat_list = []
 
         for w in words:

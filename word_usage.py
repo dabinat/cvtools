@@ -14,9 +14,6 @@ split_by_apostrophe = False
 
 
 def clean(line):
-    # Remove apostrophes to split words cutted
-    line = line.replace("'", " ")
-
     # Convert curly apostrophes to straight
     line = line.replace(u"\u2018", "'")
     line = line.replace(u"\u2019", "'")
@@ -33,12 +30,14 @@ def clean(line):
 
     return line
 
-def clean_and_split(line, split=False):
-    line = clean(line)
-    if split:
-        return line.split()
+def clean_and_split(line, split_apostrophes=False):
+    if split_apostrophes:
+        # Remove apostrophes to split words
+        line = line.replace("'", " ")
     
-    return line
+    line = clean(line)
+    
+    return line.split()
 
 def printhelp():
     print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--strip-by-apostrophe] [--no-repeats]')

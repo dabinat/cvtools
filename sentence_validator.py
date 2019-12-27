@@ -3,8 +3,8 @@
 import sys, getopt, re
 
 input_file = ''
-profanity_file = ''
-profanity_list = []
+filter_file = ''
+filter_list = []
 output_success_file = ''
 output_fail_file = ''
 approved_sentences = set()
@@ -15,32 +15,32 @@ class ValidationFailure(Exception):
    
    
 def runScript():
-    global input_file,output_success_file,output_fail_file,profanity_file
+    global input_file, output_success_file, output_fail_file, filter_file
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:],"i:p:o:of:",["input=","profanity-list=","output-success=","output-fail="])
+        opts, args = getopt.getopt(sys.argv[1:],"i:p:o:of:",["input=", "filter-list=","output-success=","output-fail="])
     except getopt.GetoptError:
-        print('sentence_validator.py -i <input file> [--profanity-list <file>] [--output-success <output file>] [-output-fail <output file>]')
+        print('sentence_validator.py -i <input file> [--filter-list <file>] [--output-success <output file>] [-output-fail <output file>]')
         sys.exit(2)
 
     for opt, arg in opts:
         if opt == '-h':
-            print('sentence_validator.py -i <input file> [--profanity-list <file>] [--output-success <output file>] [-output-fail <output file>]')
+            print('sentence_validator.py -i <input file> [--filter-list <file>] [--output-success <output file>] [-output-fail <output file>]')
             sys.exit()
         elif opt in ("-i", "--input"):
             input_file = arg
-        elif opt in ("-p", "--profanity-list"):
-            profanity_file = arg
+        elif opt in ("-f","--filter-list"):
+            filter_file = arg
         elif opt in ("-o", "--output-success"):
             output_success_file = arg
         elif opt in ("-of", "--output-fail"):
             output_fail_file = arg
 
-    # Cache profanity
-    if profanity_file:
-        with open(profanity_file) as pf:  
-            for line in pf:
-                profanity_list.append(line.strip())
+    # Cache word filters
+    if filter_file:
+        with open(filter_file) as fl:  
+            for line in fl:
+                filter_list.append(line.strip())
 
     # Open files for writing
     if output_success_file:
@@ -179,9 +179,10 @@ def runScript():
                 if not re.search(r"[^s^O^n^d^y^a^-^\"^\s]'[^t^s^r^m^l^v^d^a^e^n^c^\s^,^\.^\?^\!^\:^\;^\"^-]", line) == None:
                         raise ValidationFailure("foreign term")
                     
-                # Check for profanity
-                if containsProfanity(words):
-                    raise ValidationFailure("profanity")
+                # Check for filtered words
+                filtered_word = containsFilteredWord(words)
+                if not filtered_word == None:
+                    raise ValidationFailure("filtered word - " + filtered_word)
                     
                 # Prevent long lists
                 if line.count(",") > 4:
@@ -677,16 +678,16 @@ def containsForeignTerm(words):
             
     return False
     
-def containsProfanity(words):
+def containsFilteredWord(words):
     for w in words:
         sub_words = re.split(r'-|\.{3}',w) # Split on - or ...
         
         for sw in sub_words:
-            sw = re.sub(r'[^[a-zA-Z]','', sw)
-            if profanity_list.count(sw.lower()) > 0:
-                return True
+            sw = re.sub(r"[^[a-zA-Z']","", sw)
+            if filter_list.count(sw.lower()) > 0:
+                return sw
             
-    return False
+    return None
     
 def containsMissingWords(line):
     line = line.lower()

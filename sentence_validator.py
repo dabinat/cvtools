@@ -248,7 +248,7 @@ def expandAbbreviations(line):
                             "Part","part","Title","title","Phase","phase","prophase","Level","level","Ultima","Saturn","Palm","Bowl","Book","book","Corridor","Region", \
                             "Annex","Atlas","Ares","Mark","Zone","Division","Icarus","Falcon","WrestleMania","Article","Legio","Merlin","Metro","Chapter","Apple","Luft", \
                             "Panzer","Tysons","Turbo","Genesis","form","Form","Act","Budapest","FreeDonia","Dalek","Star","Berdan","Bratislava","Discoverer","Offset", \
-                            "Municipio","Liga","Cullinan","Technology","Company"]
+                            "Municipio","Liga","Cullinan","Technology","Company","Civilization","Volume","Sparrow","Appendix"]
     numerals = [{"from":"I","to":"One"},{"from":"II","to":"Two"},{"from":"III","to":"Three"},{"from":"IV","to":"Four"},{"from":"V","to":"Five"}]
 
     for i in numerals:
@@ -273,15 +273,15 @@ def expandAbbreviations(line):
                             "Theodosius","Mentuhotep","Neferu","Eudamidas","Cosimo","Vonones","Demetre","Radama","Compton","Thomas","Schneider","Shoshenq","Seyon", \
                             "Yeshaq","Ruben","Acrotatus","Selene","Badi","Roosevelt","Jifar","Argishti","Mueenuddeen","Ernest","Mansur","Stateira","Justinian", \
                             "Kamehameha","Xerxes","Bernhard","Psusennes","Ariamnes","Nuh","Gould","ad-Din","Maximilian","Nebuchadnezzar","Jerome","Bogdan","Aripert", \
-                            "Carlos","Amoghavarsha","Rudolf","Pedro","Faustin","Seti","Sanpei","Seleucus","Felix","Lothair","Basil","Carol","Michael"] 
+                            "Carlos","Amoghavarsha","Rudolf","Pedro","Faustin","Seti","Sanpei","Seleucus","Felix","Lothair","Basil","Carol","Michael","Philippe", \
+                            "Teimuraz","Georg"] 
+
     numerals = [{"from":"I","to":"the First"},{"from":"II","to":"the Second"},{"from":"III","to":"the Third"},{"from":"IV","to":"the Fourth"},{"from":"V","to":"the Fifth"},\
                         {"from":"VI","to":"the Sixth"},{"from":"VII","to":"the Seventh"},{"from":"VIII","to":"the Eighth"},{"from":"IX","to":"the Ninth"},{"from":"X","to":"the Tenth"}]
 
     for prefix in prefixes:
         # This is expensive so only do the regex if there's a match
-        if prefix + " " in line:
-            print("found " + prefix + " in line " + line)
-            
+        if prefix + " " in line:            
             for i in numerals:
                 # Match for "Charles I" but not "Charles I. Smith"
                 line = re.sub(prefix + "\ " + i["from"] + "(?=[\.]$|\ |,|:|;|\!|'|\")", prefix + " " + i["to"], line)
@@ -311,9 +311,9 @@ def expandAbbreviations(line):
             out_word = "and"
         elif w.count("&") > 0:
             out_word = w.replace("&"," and ")
-        elif w == "Jr" or w == "Jr.":
+        elif w == "Jr" or w == "Jr." or w == "Jnr":
             out_word = "Junior"
-        elif w == "Sr" or w == "Sr.":
+        elif w == "Sr" or w == "Sr." or w == "Snr":
             out_word = "Senior"
         elif w == "No." or w == "Nr.":
             out_word = "Number"
@@ -439,11 +439,9 @@ def expandAbbreviations(line):
             out_word = "Tennessee"
         elif w == "Brig.":
             out_word = "Brigadier"
-        elif w == "Blvd":
+        elif w == "Blvd" or w == "Blvd.":
             out_word = "Boulevard"
-        elif w == "Lt.Col.":
-            out_word = "Lieutenant Colonel"
-        elif w == "Lieut-Col.":
+        elif w == "Lt.Col." or w == "Lieut-Col." or w == "Lt.-Col.":
             out_word = "Lieutenant Colonel"
         elif w == "Eq.":
             out_word = "Equation"
@@ -465,6 +463,8 @@ def expandAbbreviations(line):
             out_word = "March"
         elif w == "Maj" or w == "Maj.":
             out_word = "Major"
+        elif w == "Maj.-Gen.":
+            out_word = "Major General"
         elif w == "Gens.":
             out_word = "Generals"
         elif w == "Prof" or w == "Prof.":
@@ -551,6 +551,10 @@ def expandAbbreviations(line):
             out_word = "Adjudicator"
         elif w == "Sec.":
             out_word = "Section"
+        elif w == "Mfg.":
+            out_word = "Manufacturing"
+        elif w == "Tec.Sgt." or w == "Tec.Sgt":
+            out_word = "Technical Sergeant"
         elif w == "iii.":
             out_word = "three"
         elif w == "iv.":
@@ -577,6 +581,20 @@ def expandAbbreviations(line):
             out_word = "twenty-seven"
         elif w == "xviii.":
             out_word = "twenty-eight"
+        elif w == "ofyet":
+            out_word = "of yet"
+        elif w == "Co.Tyrone":
+            out_word = "County Tyrone"
+        elif w == "Nr":
+            out_word = "Near"
+        elif w == "nr":
+            out_word = "near"
+        elif w == "Mgr" or w == "Mgr.":
+            out_word = "Manager"
+        elif w == "Mme" or w == "Mme.":
+            out_word = "Madame"
+        elif w == "b.":
+            out_word = "born"
 
         out_words.append(start_punctuation + out_word + end_punctuation)
         

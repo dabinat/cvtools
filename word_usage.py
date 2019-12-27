@@ -34,9 +34,10 @@ def clean_and_split(line, split_apostrophes=False):
     if split_apostrophes:
         # Remove apostrophes to split words
         line = line.replace("'", " ")
-    
+        line = line.replace('"', "")
+
     line = clean(line)
-    
+
     return line.split()
 
 def printhelp():
@@ -74,7 +75,7 @@ word_dict = defaultdict(int)
 
 if not os.path.exists(input_file):
     printhelp()
-    sys.exit(2)    
+    sys.exit(2)
 
 # Scan sentences
 with open(input_file) as f:
@@ -85,17 +86,17 @@ with open(input_file) as f:
         for w in words:
             # Ignore apostrophes at start or end
             if len(w) > 1 and w[:1] == "'":
-                w = w[1:]    
+                w = w[1:]
             if len(w) > 1 and w[-1] == "'":
                 w = w[:-1]
-        
+
             if len(w) > 0 and w != "'":
                 if no_repeats:
                     if w in repeat_list:
                         continue
-                        
+
                     repeat_list.append(w)
-                    
+
                 val = word_dict[w]
                 val += 1
                 word_dict[w] = val

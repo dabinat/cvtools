@@ -12,10 +12,18 @@ approved_sentences = set()
 # Define custom exception
 class ValidationFailure(Exception):
    pass
+
+# Compile regexes for speed
+regex_split_punctuation = re.compile(r'-|\.{3}')
+regex_non_letters = re.compile(r'[^[a-zA-Z]')
+regex_non_english_chars = re.compile(r"[^a-zA-Z'\-,.!?:;() \"]")
+regex_unusual_apostrophes = re.compile(r"[^s^O^n^d^y^a^-^\"^\s]'[^t^s^r^m^l^v^d^a^e^n^c^\s^,^\.^\?^\!^\:^\;^\"^-]")
+regex_end_in_comma_and_letter = re.compile(r"[,][\ ][A-Z][\.]$")
    
    
 def runScript():
     global input_file, output_success_file, output_fail_file, filter_file
+    global regex_unusual_apostrophes, regex_non_letters, regex_split_punctuation, regex_non_english_chars, regex_end_in_comma_and_letter
 
     try:
         opts, args = getopt.getopt(sys.argv[1:],"i:p:o:of:",["input=", "filter-list=","output-success=","output-fail="])
@@ -95,7 +103,7 @@ def runScript():
             
                 # Check for obviously truncated sentences
                 last_word = words[-1].lower()
-                sub_words = re.split(r'-|\.{3}',last_word) # Split on - or ...
+                sub_words = regex_split_punctuation.split(last_word) # Split on - or ...
                 last_word = re.sub(r'[^[a-zA-Z.]','', sub_words[-1])
                 
                 if last_word == "." or last_word == "," or last_word == "e.g." or last_word == "i.e." \
@@ -107,6 +115,10 @@ def runScript():
                 # Look for punctuation indicative of truncation
                 if " -," in line or ":." in line or " ' " in line or " \" " in line:
                     raise ValidationFailure("partial sentence")
+
+                # Check for single letters at end
+                if regex_end_in_comma_and_letter.search(line) is not None:
+                    raise ValidationFailure("partial sentence")
                 
                 # Check if too short or too long
                 if char_count < 5 or char_count > 125 or word_count < 3 or word_count > 14:
@@ -114,16 +126,16 @@ def runScript():
                     
                 # Check if words are reasonable length
                 for w in words:
-                    sub_words = re.split(r'-|\.{3}',w) # Split on - or ...
+                    sub_words = regex_split_punctuation.split(w) # Split on - or ...
                     
                     for sw in sub_words:
-                        sw = re.sub(r'[^[a-zA-Z]','', sw)
+                        sw = regex_non_letters.sub('', sw)
 
                         if lengthCheck(sw):
                             raise ValidationFailure("word length")
         
                 # Check for non-English chars
-                if re.search(r"[^a-zA-Z'\-,.!?:;() \"]", line) is not None:
+                if regex_non_english_chars.search(line) is not None:
                     raise ValidationFailure("invalid chars")
 
                 # Check if it starts with a capital letter
@@ -176,7 +188,7 @@ def runScript():
                         raise ValidationFailure("foreign term")
                     
                 # Check for non-standard apostrophe use
-                if not re.search(r"[^s^O^n^d^y^a^-^\"^\s]'[^t^s^r^m^l^v^d^a^e^n^c^\s^,^\.^\?^\!^\:^\;^\"^-]", line) == None:
+                if not regex_unusual_apostrophes.search(line) == None:
                         raise ValidationFailure("foreign term")
                     
                 # Check for filtered words
@@ -568,8 +580,10 @@ def expandAbbreviations(line):
     return " ".join(out_words)
     
 def containsForeignTerm(words): 
+    global regex_split_punctuation
+
     for w in words:
-        sub_words = re.split(r'-|\.{3}',w) # Split on - or ...
+        sub_words = regex_split_punctuation.split(w) # Split on - or ...
         for sw in sub_words:
             sw_unstripped = sw
             
@@ -679,8 +693,10 @@ def containsForeignTerm(words):
     return False
     
 def containsFilteredWord(words):
+    global regex_split_punctuation
+
     for w in words:
-        sub_words = re.split(r'-|\.{3}',w) # Split on - or ...
+        sub_words = regex_split_punctuation.split(w) # Split on - or ...
         
         for sw in sub_words:
             sw = re.sub(r"[^[a-zA-Z']","", sw)

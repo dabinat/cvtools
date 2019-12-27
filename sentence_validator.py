@@ -201,11 +201,14 @@ def runScript():
                     raise ValidationFailure("long list")
                     
                 # Check for dupes
-                if line.lower() in approved_sentences:
+                cleaned_line = line.lower()
+                cleaned_line = regex_non_letters.sub("", line)
+
+                if cleaned_line in approved_sentences:
                     raise ValidationFailure("duplicate sentence")
 
                 # Validation successful
-                approved_sentences.add(line.lower())
+                approved_sentences.add(cleaned_line)
                 
                 if output_success_file:
                     f_success.write(line + "\n")

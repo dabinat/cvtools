@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys, getopt, re
+import sys, getopt, re, os
 from collections import defaultdict
 
 input_file = ''
@@ -10,16 +10,48 @@ min_frequency = 0
 max_frequency = 0
 words_only = False
 no_repeats = False
+split_by_apostrophe = False
+
+
+def clean(line):
+    # Convert curly apostrophes to straight
+    line = line.replace(u"\u2018", "'")
+    line = line.replace(u"\u2019", "'")
+    line = line.replace(u"\u0060", "'")
+    line = line.replace(u"\u00b4", "'")
+
+    # Filter out symbols
+    line = re.sub("[^a-zA-Z\u00c0-\u024f\u1e00-\u1eff']", " ", line)
+
+    # Remove any double spaces introduced by last regex
+    line = re.sub("\ {2,}", " ", line)
+
+    line = line.lower()
+
+    return line
+
+def clean_and_split(line, split_apostrophes=False):
+    if split_apostrophes:
+        # Remove apostrophes to split words
+        line = line.replace("'", " ")
+    
+    line = clean(line)
+    
+    return line.split()
+
+def printhelp():
+    print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--strip-by-apostrophe] [--no-repeats]')
+
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:],"i:d",["input=","dictionary=","limit=","min-frequency=","max-frequency=","show-words-only","no-repeats"])
+    opts, args = getopt.getopt(sys.argv[1:],"i:d",["input=","dictionary=","limit=","min-frequency=","max-frequency=","show-words-only","strip-by-apostrophe","no-repeats"])
 except getopt.GetoptError:
-    print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--no-repeats]')
+    printhelp()
     sys.exit(2)
 
 for opt, arg in opts:
     if opt == '-h':
-        print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--no-repeats]')
+        printhelp()
         sys.exit()
     elif opt in ("-i", "--input"):
         input_file = arg
@@ -31,6 +63,8 @@ for opt, arg in opts:
         min_frequency = int(arg)
     elif opt == "--max-frequency":
         max_frequency = int(arg)
+    elif opt == "--strip-by-apostrophe":
+        split_by_apostrophe = True
     elif opt == "--show-words-only":
         words_only = True
     elif opt == "--no-repeats":
@@ -38,29 +72,20 @@ for opt, arg in opts:
 
 word_dict = defaultdict(int)
 
+if not os.path.exists(input_file):
+    printhelp()
+    sys.exit(2)    
+
 # Scan sentences
-with open(input_file) as f:  
+with open(input_file) as f:
     for line in f:
-        # Convert curly apostrophes to straight
-        line = line.replace(u"\u2018","'")
-        line = line.replace(u"\u2019","'")
-        line = line.replace(u"\u0060","'")
-        line = line.replace(u"\u00b4","'")
-
-        # Filter out symbols
-        line = re.sub("[^a-zA-Z\u00c0-\u024f\u1e00-\u1eff']", " ", line)
-
-        # Remove any double spaces introduced by last regex
-        line = re.sub("\ {2,}", " ", line)
-            
-        words = line.lower().split()
+        words = clean_and_split(line, split_by_apostrophe)
         repeat_list = []
-        
+
         for w in words:
             # Ignore apostrophes at start or end
             if len(w) > 1 and w[:1] == "'":
-                w = w[1:]
-                
+                w = w[1:]    
             if len(w) > 1 and w[-1] == "'":
                 w = w[:-1]
         
@@ -77,19 +102,9 @@ with open(input_file) as f:
 
 # Scan dictionary if the user specified it (assumes one word per line)
 if min_frequency == 0 and dictionary_file:
-    with open(dictionary_file) as f:  
+    with open(dictionary_file) as f:
         for line in f:
-            line = line.lower()
-            
-            # Convert curly apostrophes to straight
-            line = line.replace(u"\u2018","'")
-            line = line.replace(u"\u2019","'")
-            line = line.replace(u"\u0060","'")
-            line = line.replace(u"\u00b4","'")
-
-            # Filter out symbols
-            line = re.sub('[^a-zA-Z\u00c0-\u024f\u1e00-\u1eff\']', '', line)
-        
+            line = clean(line)
             if len(line) > 0:
                 # Add word if it doesn't exist
                 val = word_dict[line]
@@ -101,7 +116,7 @@ filtered_words = defaultdict(int)
 for word in word_dict:
     if (min_frequency == 0 or int(word_dict[word]) >= min_frequency) and \
     (max_frequency == 0 or int(word_dict[word]) <= max_frequency):
-        filtered_words[word] = word_dict[word]      
+        filtered_words[word] = word_dict[word]
 
 # Now sort by alphabetical order of word
 sorted_words = sorted(filtered_words.items(), key=lambda x:x[0]);

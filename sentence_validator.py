@@ -621,7 +621,7 @@ def containsForeignTerm(words):
                 return True
             
             # Case sensitive
-            full_patterns = ["le","ng","les","del","al","das","du","dos","el","des","dil","ma","fu","pe","si","im","Ii"]
+            full_patterns = ["le","ng","les","del","al","das","du","dos","el","des","dil","ma","fu","pe","si","im","Ii","ni"]
         
             for p in full_patterns:
                 if sw == p:
@@ -630,9 +630,9 @@ def containsForeignTerm(words):
             # Case insensitive
             full_insensitive_patterns = ["og","la","ap","ibn","et","ga","sur","aj","ud", \
             "ix","ich","zur","und","una","jou","jus","que","qui","est","te","tu","il","avec","vous","yr","ar","sa","auf","ny", \
-            "na","vi","ein","ist","alte","mon","lei","lui","mi","moi","rasa","zu","mit","von","au","je","ne", \
+            "na","vi","ein","ist","alte","mon","lei","lui","mi","moi","rasa","zu","mit","von","au","je","ne","jah","uz","png", \
             "ja","za","ka","ba","ch","lok","ool","ry","haq","huq","ul","ga","roi","dh","pe","aa","ke","ona","ww","ak", \
-            "mi","fa","ji","deg","gu","dei","toh","ar","ge","rrh","aoi","och","fod","megc","om"]
+            "mi","fa","ji","deg","gu","dei","toh","ar","ge","rrh","aoi","och","fod","megc","om","ol","ua","pu","ee","xie","nwo","sui","siya"]
         
             for p in full_insensitive_patterns:
                 if sw_lower == p:
@@ -641,7 +641,9 @@ def containsForeignTerm(words):
             # Starts
             insensitive_starts = ["mb","nd","cni","uem","krk","yps","mw","khu","mst","mku","mh","mt","dje","ouag","izq","shch","nh","slh","prf",\
             "ht","sb","gsc","gsa","gsh","jha","psk","izb","xio","xua","ss","pyeo","kii","md","lv","srp","vli","pht","atq","ks","maar","maac","maan", \
-            "maal","maay","mij","bsh","ff","sree","nk","sht"]
+            "maal","maay","mij","bsh","ff","sree","nk","sht","mf","nts","nta","ntc","nto","ntu","nty","nte","nti","ntl","iwa","dho","dham","dhav", \
+            "dho","dhar","dhau","dhaw","dham","dhan","dhe","dhu","dhar","dhi","dhr","tj","khag","hao","sf","cw","akh","mri","mru","mro","mre","bho", \
+            "chh","bhi","mrd","rattu","sattu","xia","xiu","xie","gye","mv","mg","mma","anky"]
         
             for p in insensitive_starts:
                 if sw_lower.startswith(p):
@@ -650,7 +652,8 @@ def containsForeignTerm(words):
             # Ends
             insensitive_ends = ["rinae","dj","idae","siella","irae","dinae","tinae","linae","ginae","binae","sinae","thinae","ziella","vci","eong", \
             "yeon","izae","rji","tji","ensis","erae","losia","otl","ehr","rurus","ocactus","raea","oidea","pidea","nwg","chwr","vsk","zd","chiv","hwy", \
-            "gwy","kii","sija","cija","dija","lija","nija","zija","kija","jija","pija","dw","wr","yj","kn","kw","skyi","cillus","kga"]
+            "gwy","kii","sija","cija","dija","lija","nija","zija","kija","jija","pija","dw","wr","yj","kn","kw","skyi","cillus","kga","dh","hg","gt", \
+            "adt","oru","nje","attu","swamy","lw","gyi","ndha","hr","nj"]
         
             for p in insensitive_ends:
                 if sw_lower.endswith(p):
@@ -669,7 +672,8 @@ def containsForeignTerm(words):
             "bii","iiz","iix","iic","iib","iis","iif","iik","iil","iiw","iie","iir","iiy","iiu","iio","iip","haa","gji","erae","ygg", \
             "dihy","zhs","azn","yaj","ijn","khn","czu","vyr","evg","vyd","uaca","jni","mrr","kkl","zvia","kkav","rkk","wys","uxii","asaa", \
             "hiei","yaya","wij","ijk","bvr","itja","zhn","jna","jra","satya","aev","hii","hhh","zzz","ajn","dhh","eorh","lsve","rzy","prze", \
-            "korz","krze","hrze","brze"]
+            "korz","krze","hrze","brze","jij","phof","zha","zhi","zhu","czh","dtj","jiq","gkh","yts","vij","wph","krb","rija","lakh","sakh", \
+            "dakh","bakh","czk","okch","ekch","ukch","giy","ovgr","vattu","onnu","jd","umz","aee","dhs","obz","abz","ukw","khra"]
             
             for p in partial_patterns:
                 if sw_lower.count(p) > 0:
@@ -702,15 +706,24 @@ def containsForeignTerm(words):
                 or prefix_lower == "qn" or prefix_lower == "wd" or prefix == "Wl" or prefix_lower == "wm" or prefix == "Zw" \
                 or prefix == "Zr" or prefix == "Zs" or prefix_lower == "zd" or prefix == "Zv" or prefix == "Zb" \
                 or prefix_lower == "zn" or prefix == "Zm" or prefix == "Pf" or prefix == "Hv" or prefix == "Gj" \
+                or prefix == "Srir" \
                 or prefix == "Ts" or prefix_lower == "bw" or suffix == "kw" or suffix == "khr" or suffix_unstripped == "'u" \
                 or suffix_unstripped == "'e" or suffix_unstripped == "'a" or suffix_unstripped == "'i" \
                 or suffix_unstripped == "'o" or suffix_unstripped == "'h" or suffix_unstripped == "'r":
                     return True
                     
             # Q not followed by a U or I
-            if re.search(r"q[^ui',.:;!?\"\s]",sw_unstripped) is not None:
-                return True
-            
+            if "q" in sw_lower:
+                if re.search(r"q[^ui',.:;!?\"\s]", sw_unstripped) is not None:
+                    return True
+
+            # Filter scientific-style names like "S. umbelliferum"
+            line = " ".join(words)
+
+            if "\"" in line:
+                if re.search(r"\"[A-Z]\. ([a-z]{5,})\"", line) is not None:
+                    return True
+
     return False
     
 def containsFilteredWord(words):

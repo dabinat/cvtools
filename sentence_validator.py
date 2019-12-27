@@ -740,12 +740,11 @@ def containsFilteredWord(words):
     return None
     
 def containsMissingWords(line):
-    line = line.lower()
     words = line.split()
 
     for w in words:
         if w == "\"\"" or w == "\"\"." or w == "\"\"," or w == "\"\";" or w == "\"\":" or w == "\"\"!" or w == "'" \
-        or w == "\"\"?" or w == "," or w == "." or w == "'s" or w == "\"\"," or w.startswith("??") or w.startswith("\"??"):
+        or w == "\"\"?" or w == "," or w == "." or w == "'s" or w == "\"\"," or w == "\",\"" or w.startswith("??") or w.startswith("\"??"):
             return True
             
     criteria = ["over of", "on of", "with of", "by of", "between of", "between and", "and and", "of and", "of of",\
@@ -768,30 +767,30 @@ def containsMissingWords(line):
      "an estimated in size", "to tall", "to diameter", "the and", "weighs by", "engages over adults", "approximately to", \
      "owned of land", "is in height", "is in width", "is in depth", "cooked to mixed", "up to and", "approximately past the", \
      "work in but", "from to wide", "calculated at and", "to of", "height of made", "height of and", "deep and in diameter", \
-     "to about before", "by in", "than in diameter", "distance of from", "distance of to", "are in diameter", \
+     "to about before", "than in diameter", "distance of from", "distance of to", "are in diameter", \
      "of nearly above sea level", "of nearly below sea level", "about later", "is some long", "of is", "located on owned", \
-     "bulkheads thick", "located from", "than tall", "than thick", "than thin", "than short", "than long", "few off", \
+     "bulkheads thick", "located from", "few off", \
      "temperature of during", "precipitation is with", "long by in", "between per", "averages per", "about away", \
-     "less than in", "more than in", "from about up", "of around from", "reach of length", "other than are", "about away", \
+     "less than in", "from about up", "of around from", "reach of length", "other than are", "about away", \
      "the which", "around above", "around below", "about per", "are there are", "for for", "over while", "about inland", \
-     "to as", "at on", "by be", "in by", "about apart", "to accompanied", "on bordering", "greater than favor", \
+     "at on", "by be", "about apart", "on bordering", "greater than favor", \
      "more than thick", "are there are", "roughly wide", "roughly long", "roughly high", "roughly tall", "roughly deep", \
-     "roughly short", "roughly from", "are each while", "to during", "to after", "to before", "averages of rain", \
-     "dived to and", "in as", "approximately from", "ranging from long", "ranging from deep", "ranging from tall", \
-     "ranging from wide", "to via", "of at", "at at", "with in", "is located is", "approximately below", "measuring deep", \
+     "roughly short", "roughly from", "are each while", "averages of rain", \
+     "dived to and", "approximately from", "ranging from long", "ranging from deep", "ranging from tall", \
+     "ranging from wide", "to via", "at at", "with in", "is located is", "approximately below", "measuring deep", \
      "measuring long", "measuring wide", "measuring tall", "produce of thrust", "produce of torque", "of is", "the in", \
-     "they and are", "nearly of", "between tall", "between wide", "between deep", "between high", "between low", \
+     "they and are", "nearly of", "variation is and", \
      "weigh and", "averages annually", "carried of fuel", "of the his", "of the her", "far as away", "measured at long", \
      "for about to", "temperatures above are", "approximately westward", "approximately eastward", "approximately northward", \
-     "approximately southward", "rainfall was in one", "strength of has", "about below", "encompasses of land", "of on", \
+     "approximately southward", "rainfall was in one", "strength of has", "about below", "encompasses of land", \
      "over with higher", "estimated around and", "is in span", "is otherwise is", "can reach high", "can reach tall", \
-     "can reach wide", "can reach deep", "located from", "-long", "-wide", "-deep", "-tall", "-high", "from of", \
+     "can reach wide", "can reach deep", "-long", "-wide", "-deep", "-tall", "-high", "from of", \
      "less than long", "less than high", "less than deep", "less than tall", "greater than on", "less than on", \
-     "more than on", "elevation of above", "elevation of below", "for from", "to above sea level", "to below sea level", \
+     "more than on", "elevation of above", "elevation of below", "to above sea level", "to below sea level", \
      "to above ground level", "to below ground level", "less than to", "more than to", "greater than to", "is only away", \
      "about north", "about south", "about east", "about west", "the and", "is only wide", "is only long", "is only high", \
      "in of grounds", "remains above through", "remains above throughout", "remains below through", "remains below throughout", \
-     "weigh and are", "up to of", "are of", "some north", "some east", "some south", "some west", "some northeast", "some northwest", \
+     "weigh and are", "up to of", "some north", "some east", "some south", "some west", "some northeast", "some northwest", \
      "some southeast", "some southwest", "over in size", "over in width", "over in height", "over in depth", "about of", \
      "services to will", "length of or", "width of or", "depth of or" "height of or", "from to", "area of in", "consists of in", \
      "average of in", "average low of in", "average high of in", "maximum of in", "minimum of in", "neighborhood of in", "speed of in", \
@@ -802,14 +801,25 @@ def containsMissingWords(line):
      "orbits at and", "between in diameter", "estimated as from", "given as from", "approximately in diameter", "born on in", "approximately north east", \
      "it is and", "of another north", "of another east", "of another south", "of another west", "varies from throughout", "as far as away", "at is", \
      "speed of has", "between in elevation", "comprised about or", "in the at", "long by wide", "its length is and", "its width is and", \
-     "its depth is and", "its height is and"]
+     "its depth is and", "its height is and", "reach in length", "reach in size", "reaches in length", "reaches in size", "around of", "approximately of", \
+     "is and at", "runs for through", "flows for through", "eastward for through", "around of", "approximately of", "is mm", "was mm", "were mm", "is km", \
+     "was km", "were km", "between mm", "between mm", "for mm", "for km"]
      
-    line = re.sub(r'[^[a-zA-Z]','', line).lower()
+    unstripped = re.sub(r'[^[a-zA-Z ,\"\':;\."]','', line)
+    stripped = re.sub(r'[^[a-zA-Z ]','', line).lower()
      
     for c in criteria:
-        if line.count(" " + c + " ") > 0 or line.startswith(c + " ") or line.endswith(" " + c):
-            return True
+        # Make sure phrase appears without punctuation in the middle e.g. but, and
+        if unstripped.count(c) > 0:
+            if stripped.count(" " + c + " ") > 0 or stripped.startswith(c + " ") or stripped.endswith(" " + c):
+                return True
     
+    if unstripped.startswith("It and "):
+        return True
+
+    if re.search(r"(the)\ [A-Z]\.$", line) is not None:
+        return True
+
     return False
 
 def lengthCheck(word):

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import sys, getopt, re, os
 from collections import defaultdict
@@ -30,6 +30,7 @@ def clean(line):
 
     return line
 
+
 def clean_and_split(line, split_apostrophes=False):
     if split_apostrophes:
         # Remove apostrophes to split words
@@ -39,6 +40,7 @@ def clean_and_split(line, split_apostrophes=False):
     line = clean(line)
 
     return line.split()
+
 
 def printhelp():
     print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--strip-by-apostrophe] [--no-repeats]')
@@ -120,17 +122,17 @@ for word in word_dict:
         filtered_words[word] = word_dict[word]
 
 # Now sort by alphabetical order of word
-sorted_words = sorted(filtered_words.items(), key=lambda x:x[0]);
+sorted_words = sorted(filtered_words.items(), key=lambda x: x[0])
 
 # Sort words by most to least frequent
-sorted_words = sorted(sorted_words, key=lambda x:x[1], reverse=True);
+sorted_words = sorted(sorted_words, key=lambda x: x[1], reverse=True)
 
 # Set limit if specified
 if limit > 0 and len(sorted_words) > limit:
     sorted_words = sorted_words[:limit]
 
-for word,num in sorted_words:
+for word, num in sorted_words:
     if words_only:
         print(word)
     else:
-        print("{} {}".format(word,num))
+        print("{} {}".format(word, num))

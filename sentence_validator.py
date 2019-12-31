@@ -276,22 +276,9 @@ def expandAbbreviations(line):
             
             line = line.replace(prefix + " " + i["from"] + " ",prefix + " " + to_text + " ")
 
-    # Monarchs
-    prefixes = ["Charles","James","John","Mary","Elizabeth","Henry","Edward","Albert","Louis","Mehmed","Napoleon","Murad","Danilo","Ahmose","Leo", \
-                            "Bayezid","Valentinian","Nepherites","Volkaert","Pedro","Frederick","Ptolemy","Baldwin","William","Paul","Nicholas","Celestine", \
-                            "George","Ferdinand","Ivid","Harald","Baldwin","Antiochus","Gustaf","Christian","Martin","Abgar","Philip","Ladislaus","Mohammed", \
-                            "Muhammed","Jan","Floris","Walter","Afonso","Hugh","Mithridates","Dirk","Peter","Mohamed","Ramesses","Paerisades","Regio","Leopold", \
-                            "Amenemhat","Harrison","Frederik","Bagrat","Bahram","Alfonso","Pelagius","Paschal","Otto","Victor","Ramiro","David","Francis","Alberic", \
-                            "Demetrius","Tukulti-Ninurta","Ermengol","Mahmud","Yazdegerd","Ranavalona","Radama","Alexander","Alfred","Leka","Ladislaus","Simeon","Asen",\
-                            "Darius","Cleombrotus","Sargon","Abbas","Harshavarman","Moctezuma","Prijezda","Willford","Chandragupta","Mestwin","Eupolypods","Robert", \
-                            "Nahb","Augustus","Celebrezze","Kamehameha","Antimachus","Apollodotus","Psamtik","Dmitry","Selassie","Osroes","Johann", \
-                            "Thutmose","Pepi","Al-Hakam","Dagobert","Murad","Selim","Constantine","Chola","Sigebert","Charibert","Fasciculus","Rasmussen","Rama", \
-                            "Theodosius","Mentuhotep","Neferu","Eudamidas","Cosimo","Vonones","Demetre","Radama","Compton","Thomas","Schneider","Shoshenq","Seyon", \
-                            "Yeshaq","Ruben","Acrotatus","Selene","Badi","Roosevelt","Jifar","Argishti","Mueenuddeen","Ernest","Mansur","Stateira","Justinian", \
-                            "Kamehameha","Xerxes","Bernhard","Psusennes","Ariamnes","Nuh","Gould","ad-Din","Maximilian","Nebuchadnezzar","Jerome","Bogdan","Aripert", \
-                            "Carlos","Amoghavarsha","Rudolf","Pedro","Faustin","Seti","Sanpei","Seleucus","Felix","Lothair","Basil","Carol","Michael","Philippe", \
-                            "Teimuraz","Georg"] 
 
+    # Monarchs
+    prefixes = personNames()
     numerals = [{"from":"I","to":"the First"},{"from":"II","to":"the Second"},{"from":"III","to":"the Third"},{"from":"IV","to":"the Fourth"},{"from":"V","to":"the Fifth"},\
                         {"from":"VI","to":"the Sixth"},{"from":"VII","to":"the Seventh"},{"from":"VIII","to":"the Eighth"},{"from":"IX","to":"the Ninth"},{"from":"X","to":"the Tenth"}]
 
@@ -871,6 +858,39 @@ def lengthCheck(word):
             
     return len(word) > 13
     
+def personNames():
+    return set(["Charles","James","John","Mary","Elizabeth","Henry","Edward","Albert","Louis","Mehmed","Napoleon","Murad","Danilo","Ahmose","Leo", \
+                            "Bayezid","Valentinian","Nepherites","Volkaert","Pedro","Frederick","Ptolemy","Baldwin","William","Paul","Nicholas","Celestine", \
+                            "George","Ferdinand","Ivid","Harald","Baldwin","Antiochus","Gustaf","Christian","Martin","Abgar","Philip","Ladislaus","Mohammed", \
+                            "Muhammed","Jan","Floris","Walter","Afonso","Hugh","Mithridates","Dirk","Peter","Mohamed","Ramesses","Paerisades","Regio","Leopold", \
+                            "Amenemhat","Harrison","Frederik","Bagrat","Bahram","Alfonso","Pelagius","Paschal","Otto","Victor","Ramiro","David","Francis","Alberic", \
+                            "Demetrius","Tukulti-Ninurta","Ermengol","Mahmud","Yazdegerd","Ranavalona","Radama","Alexander","Alfred","Leka","Ladislaus","Simeon","Asen",\
+                            "Darius","Cleombrotus","Sargon","Abbas","Harshavarman","Moctezuma","Prijezda","Willford","Chandragupta","Mestwin","Eupolypods","Robert", \
+                            "Nahb","Augustus","Celebrezze","Kamehameha","Antimachus","Apollodotus","Psamtik","Dmitry","Selassie","Osroes","Johann", \
+                            "Thutmose","Pepi","Al-Hakam","Dagobert","Murad","Selim","Constantine","Chola","Sigebert","Charibert","Fasciculus","Rasmussen","Rama", \
+                            "Theodosius","Mentuhotep","Neferu","Eudamidas","Cosimo","Vonones","Demetre","Radama","Compton","Thomas","Schneider","Shoshenq","Seyon", \
+                            "Yeshaq","Ruben","Acrotatus","Selene","Badi","Roosevelt","Jifar","Argishti","Mueenuddeen","Ernest","Mansur","Stateira","Justinian", \
+                            "Kamehameha","Xerxes","Bernhard","Psusennes","Ariamnes","Nuh","Gould","ad-Din","Maximilian","Nebuchadnezzar","Jerome","Bogdan","Aripert", \
+                            "Carlos","Amoghavarsha","Rudolf","Pedro","Faustin","Seti","Sanpei","Seleucus","Felix","Lothair","Basil","Carol","Michael","Philippe", \
+                            "Teimuraz","Georg","Stephen","Simon","Chilperic","Faisal","Hassan","Isabella","Suryavarman","Amenhotep","Cleon","Hattusili","Osorkon", \
+                            "Kenneth","Theodo","Yasovarman","Takelot","Far","Samuel","Laurence","Pearl","Joseph","Antonio","Edith","Frank","Harry","Barbara","Jack", \
+                            "Christopher","Helen","Nelson","Mickey","Eric","Sarah","Roland","Bain","Brian","Nancy","Vivica","Harold","Billy","Kelli","Montgomery", \
+                            "Carl","Newman","Patricia","Sara","Gershom","Martha","Morris","Vincent","Gerald","Sotiris","Lewis","Gackt","Calvin","Garlington", \
+                            "Berry","Kin","Donald","Ryan","Arthur","Pius","Andrew","Wilkes","Matthew","Emily","Harvey","Finbarr","Russell","Jack","Craig","Stevie", \
+                            "Stanley","Zeus","Stella","Nick","Austin","Richard","Bernard","Ammi","Schelte","Laura","Leonard","Connie","Dickson","Virginia", \
+                            "Lester","Bruce","Baker","Catherine","Travers","Anthony","Hilton","Deborah","Dwight","Ray","Darren","Lenore","Delia","Maddie","Zachary", \
+                            "Bernardo","Hamton","Lloyd","Timothy","Edgar","Gregory","Wesley","Stephanie","Umberto","Karel","Roger","Moses","Chester","Jose", \
+                            "Jamaal","Elias","Eugene","Remer","Ronald","Will","Waldo","Roy","Lawrence","Franklin","Susie","Rodney","Lucile","Heber","Jubal", \
+                            "Katherine","Jonas","Theodore","Ezra","Phil","Phillip","Susan","Penelope","Earl","Dudley","Arthur","Weil","Marilyn","Aloysius", \
+                            "Denison","Eugene","Warren","Milton","Lenora","Alan","Heber","Yi","Daniel","Hal","Lemma","Jeffrey","Jairo","Al","Murphy","Perry", \
+                            "Ida","Melvin","Howell","Howard","Hilbert","Juanita","Humphrey","Regina","Frankie","Bill","Floyd","Willis","Mark","Byron","Frederic", \
+                            "Brendan","Anna","Michele","Stuart","Delores","Marshall","Burwell","Paris","Evelyn","Charlotte","Isaac","Marjorie","Griffin","Edwin", \
+                            "Sidney","Kinuko","Andre","Polly","Ralph","Elisha","Frances","Clarence","Lito","Willie","Jane","Amadee","Waddy","Ruth","Chella","Sue", \
+                            "Harley","Herbert","Reuben","Sabin","Orville","Rose","Rosa","Caspian","Rodriguez","Marion","Marian","Lee","Kent","Iyasu","Meyer", \
+                            "Derek","Gordon","Gary","Lea","Leah","Lucille","Camille","Pierson","Garry","Galusha","Hershel","Haskell","Benjamin","Ben","Cecil", \
+                            "Dorothy","Joe","Sallie","Sally","Ellen","Nellie","Bradley","Mills","Steven","Clifford","Edmund","Maria","Elliott","Elliot","Joel", \
+                            "Elbert","Egbert","Jeremiah","Saidie","Eyal","LeBel","Clotaire","Strato","Marwan","Arsinoe","Mikhail"])
+
 def fixMisspellings(line):
     word_map = {"idustry":"industry", "tv":"TV", "breaksin":"breaks in", "Albun":"Album", "everywher":"everywhere", "conjusted":"congested", "pavaments":"pavements", \
     "elibible":"eligible", "thrushs":"thrushes", "topforty":"top-forty", "kylie":"Kylie", "buble":"bubble", "partecipated":"participated", "Worrior":"Warrior", "ia":"is", \

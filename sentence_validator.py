@@ -102,6 +102,9 @@ def runScript():
                 # Replace abbreviated words
                 line = expandAbbreviations(line)
 
+                # Fix misspellings
+                line = fixMisspellings(line)
+
                 # Fix punctuation spacing
                 line = regex_no_comma_after_space.sub(', ', line)
 #               line = re.sub(r'(?<=[^\.])\.(?=\S[^\"\.])', '. ', line)
@@ -868,5 +871,36 @@ def lengthCheck(word):
             
     return len(word) > 13
     
+def fixMisspellings(line):
+    word_map = {"idustry":"industry", "tv":"TV", "breaksin":"breaks in", "Albun":"Album", "everywher":"everywhere", "conjusted":"congested", "pavaments":"pavements", \
+    "elibible":"eligible", "thrushs":"thrushes", "topforty":"top-forty", "kylie":"Kylie", "buble":"bubble", "partecipated":"participated", "Worrior":"Warrior", "ia":"is", \
+    "Departement":"Department", "vimeo":"Vimeo", "wararm":"war arm", "spontenaity":"spontaneity", "Manunscripts":"Manuscripts", "missquoted":"misquoted", \
+    "sponteaneous":"spontaneous", "inteject":"interject", "Jonh":"John", "dropt":"drops", "halucinatory":"hallucinatory", "guerilla":"guerrilla", "Outwith":"Out with", \
+    "archeological":"archaeological", "twentyfive":"twenty-five", "carricatures":"caricatures"}
+
+    keys = word_map.keys()
+
+    words = line.split()
+    out_array = []
+
+    for w in words:
+        leading_punctuation = ""
+        trailing_punctuation = ""
+
+        if w[0] == "." or w[0] == "'" or w[0] == "'":
+            leading_punctuation = w[0]
+            w = w[1:]
+
+        if w[-1] == "." or w[-1] == "," or w[-1] == "'" or w[-1] == "'":
+            trailing_punctuation = w[-1]
+            w = w[:-1]
+
+        if w in keys:
+            out_array.append(leading_punctuation + word_map[w] + trailing_punctuation)
+        else:
+            out_array.append(leading_punctuation + w + trailing_punctuation)
+
+    return " ".join(out_array)
+
 runScript()
 

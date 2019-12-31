@@ -241,6 +241,7 @@ def expandAbbreviations(line):
     line = line.replace(".com"," dot com")
     line = line.replace(".net"," dot net")
     line = line.replace(".org"," dot org")
+    line = line.replace(".biz"," dot biz")
     line = line.replace(".ie"," dot ie")
     line = line.replace(".co"," dot co")
     line = line.replace(".ac"," dot ac")
@@ -250,14 +251,17 @@ def expandAbbreviations(line):
     line = line.replace(".gov"," dot gov")
     line = line.replace(".io"," dot io")
     line = line.replace(".tv"," dot tv")
+    line = line.replace(".ru"," dot ru")
     line = line.replace("www.","www dot ")
 
     # Roman numerals
-    prefixes = ["War","Grade","grade","Type","type","Category","category","Model","Schedule","Class","Sermon","Section","Group","group","District",\
+    prefixes = set(["War","Grade","grade","Type","type","Category","category","Model","Schedule","Class","Sermon","Section","Group","group","District",\
                             "Part","part","Title","title","Phase","phase","prophase","Level","level","Ultima","Saturn","Palm","Bowl","Book","book","Corridor","Region", \
                             "Annex","Atlas","Ares","Mark","Zone","Division","Icarus","Falcon","WrestleMania","Article","Legio","Merlin","Metro","Chapter","Apple","Luft", \
                             "Panzer","Tysons","Turbo","Genesis","form","Form","Act","Budapest","FreeDonia","Dalek","Star","Berdan","Bratislava","Discoverer","Offset", \
-                            "Municipio","Liga","Cullinan","Technology","Company","Civilization","Volume","Sparrow","Appendix"]
+                            "Municipio","Liga","Cullinan","Technology","Company","Civilization","Volume","Sparrow","Appendix","Bowl","Discoverer","Offset","Apple","Luft", \
+                            "Panzer","Ultima","War","Genesis","Station"])
+    suffixes = ["chord","tonic"]
     numerals = [{"from":"I","to":"One"},{"from":"II","to":"Two"},{"from":"III","to":"Three"},{"from":"IV","to":"Four"},{"from":"V","to":"Five"}]
 
     for i in numerals:
@@ -320,10 +324,12 @@ def expandAbbreviations(line):
             out_word = "and"
         elif w.count("&") > 0:
             out_word = w.replace("&"," and ")
-        elif w == "Jr" or w == "Jr." or w == "Jnr":
+        elif w == "Jr" or w == "Jr." or w == "Jnr" or w == "jnr" or w == "jnr.":
             out_word = "Junior"
-        elif w == "Sr" or w == "Sr." or w == "Snr":
+        elif w == "Sr" or w == "Sr." or w == "Snr" or w == "snr.":
             out_word = "Senior"
+        elif w == "jr.":
+            out_word = "junior"
         elif w == "No." or w == "Nr.":
             out_word = "Number"
         elif w == "Nos.":
@@ -350,13 +356,15 @@ def expandAbbreviations(line):
             out_word = "Sergeants"
         elif w == "Gen.":
             out_word = "General"
+        elif w == "Flt." or w == "Flt":
+            out_word = "Flight"
         elif w == "Pt" or w == "Pt.":
             out_word = "Part"
         elif w == "pt" or w == "pt.":
             out_word = "part"
         elif w == "Fr" or w == "Fr.":
             out_word = "Father"
-        elif w == "Rev" or w == "Rev.":
+        elif w == "Rev" or w == "Rev." or w == "Revd" or w == "Revd.":
             out_word = "Reverend"
         elif w == "Vol" or w == "Vol.":
             out_word = "Volume"
@@ -488,6 +496,10 @@ def expandAbbreviations(line):
             out_word = "that is"
         elif w == "i.a.":
             out_word = "among others"
+        elif w == "c.f." or w == "cf.":
+            out_word = "compare"
+        elif w == "s.a." or w == "sa.":
+            out_word = "without year"
         elif w == "c.o.":
             out_word = "County"
         elif w == "viz.":
@@ -564,6 +576,8 @@ def expandAbbreviations(line):
             out_word = "Manufacturing"
         elif w == "Tec.Sgt." or w == "Tec.Sgt":
             out_word = "Technical Sergeant"
+        elif w == "Cav.":
+            out_word = "Cavalier"
         elif w == "iii.":
             out_word = "three"
         elif w == "iv.":

@@ -19,11 +19,20 @@ regex_non_letters = re.compile(r'[^[a-zA-Z]')
 regex_non_english_chars = re.compile(r"[^a-zA-Z'\-,.!?:;() \"]")
 regex_unusual_apostrophes = re.compile(r"[^s^O^n^d^y^a^-^\"^\s]'[^t^s^r^m^l^v^d^a^e^n^c^\s^,^\.^\?^\!^\:^\;^\"^-]")
 regex_end_in_comma_and_letter = re.compile(r"[,][\ ][A-Z][\.]$")
-   
+regex_strip_punctuation = re.compile(r'[^[a-zA-Z\ ]')
+regex_q_without_u = re.compile(r"q[^ui',.:;!?\"\s]")
+regex_scientific_names = re.compile(r"\"[A-Z]\. ([a-z]{5,})\"")
+regex_non_letters_and_apostrophes = re.compile(r"[^[a-zA-Z']")
+regex_extra_periods = re.compile(r"[^\.]\.{2}$")
+regex_no_comma_after_space = re.compile(r',(?=\w)')
+regex_non_letters_and_periods = re.compile(r'[^[a-zA-Z.]')
+regex_strip_uncommon_chars = re.compile(r'[^[a-zA-Z ,\"\':;\."]')
+regex_truncated_the = re.compile(r"(the)\ [A-Z]\.$")
    
 def runScript():
     global input_file, output_success_file, output_fail_file, filter_file
-    global regex_unusual_apostrophes, regex_non_letters, regex_split_punctuation, regex_non_english_chars, regex_end_in_comma_and_letter
+    global regex_unusual_apostrophes, regex_non_letters, regex_split_punctuation, regex_non_english_chars, regex_end_in_comma_and_letter, regex_strip_punctuation
+    global regex_extra_periods, regex_no_comma_after_space, regex_non_letters_and_periods
 
     try:
         opts, args = getopt.getopt(sys.argv[1:],"i:p:o:of:",["input=", "filter-list=","output-success=","output-fail="])
@@ -66,7 +75,7 @@ def runScript():
                 # Tidy up sentence endings
                 if line.endswith("!.") or line.endswith("?.") or line.endswith(",."):
                     line = line[:-1]
-                line = re.sub(r"[^\.]\.{2}$", ".", line)
+                line = regex_extra_periods.sub(".", line)
                             
                 # Replace stylized symbols
                 line = line.replace(u"\u2018","'")
@@ -94,7 +103,7 @@ def runScript():
                 line = expandAbbreviations(line)
 
                 # Fix punctuation spacing
-                line = re.sub(r',(?=\w)', ', ', line)
+                line = regex_no_comma_after_space.sub(', ', line)
 #               line = re.sub(r'(?<=[^\.])\.(?=\S[^\"\.])', '. ', line)
 
                 words = line.split()
@@ -104,7 +113,7 @@ def runScript():
                 # Check for obviously truncated sentences
                 last_word = words[-1].lower()
                 sub_words = regex_split_punctuation.split(last_word) # Split on - or ...
-                last_word = re.sub(r'[^[a-zA-Z.]','', sub_words[-1])
+                last_word = regex_non_letters_and_periods.sub('', sub_words[-1])
                 
                 if last_word == "." or last_word == "," or last_word == "e.g." or last_word == "i.e." \
                 or last_word == "a.k.a" or last_word == "no." or last_word == "al." or last_word == "op." \

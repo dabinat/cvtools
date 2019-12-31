@@ -108,7 +108,7 @@ def runScript():
 
                 words = line.split()
                 word_count = len(words)
-                char_count = len(line)
+                char_count = len(regex_non_letters.sub("",line))
             
                 # Check for obviously truncated sentences
                 last_word = words[-1].lower()

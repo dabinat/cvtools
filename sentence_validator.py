@@ -267,15 +267,29 @@ def expandAbbreviations(line):
     suffixes = ["chord","tonic"]
     numerals = [{"from":"I","to":"One"},{"from":"II","to":"Two"},{"from":"III","to":"Three"},{"from":"IV","to":"Four"},{"from":"V","to":"Five"}]
 
-    for i in numerals:
-        for prefix in prefixes:
-            to_text = i["to"]
-            # Match case
-            if prefix.lower() == prefix:
-                to_text = to_text.lower()
-            
-            line = line.replace(prefix + " " + i["from"] + " ",prefix + " " + to_text + " ")
+    for prefix in prefixes:
+        # This is expensive so only do the regex if there's a match
+        if prefix in line:
+            for i in numerals:
+                to_text = i["to"]
+                # Match case
+                if prefix.lower() == prefix:
+                    to_text = to_text.lower()
+                
+    #            line = line.replace(prefix + " " + i["from"] + " ",prefix + " " + to_text + " ")
+                line = re.sub(r"\b" + prefix + r"\ " + i["from"] + r"\b", prefix + " " + to_text, line)
 
+    for suffix in suffixes:
+        # This is expensive so only do the regex if there's a match
+        if suffix in line:
+            for i in numerals:
+                to_text = i["to"]
+                # Match case
+                if suffix.lower() == suffix:
+                    to_text = to_text.lower()
+                
+    #            line = line.replace(i["from"] + " " + suffix, to_text + " " + suffix)
+                line = re.sub("\b" + i["from"] + " " + suffix + "\b", to_text + " " + suffix, line)
 
     # Monarchs
     prefixes = personNames()
@@ -284,7 +298,7 @@ def expandAbbreviations(line):
 
     for prefix in prefixes:
         # This is expensive so only do the regex if there's a match
-        if prefix + " " in line:            
+        if prefix in line:
             for i in numerals:
                 # Match for "Charles I" but not "Charles I. Smith"
                 line = re.sub(prefix + "\ " + i["from"] + "(?=[\.]$|\ |,|:|;|\!|'|\")", prefix + " " + i["to"], line)
@@ -614,7 +628,7 @@ def expandAbbreviations(line):
     return " ".join(out_words)
     
 def containsForeignTerm(words): 
-    global regex_split_punctuation
+    global regex_split_punctuation, regex_non_letters, regex_q_without_u, regex_scientific_names
 
     for w in words:
         sub_words = regex_split_punctuation.split(w) # Split on - or ...
@@ -627,7 +641,7 @@ def containsForeignTerm(words):
             if sw.startswith("o'"):
                 sw = sw[2:]
 
-            sw = re.sub(r'[^[a-zA-Z]','', sw)
+            sw = regex_non_letters.sub('', sw)
             sw_lower = sw.lower()
             
             if sw_unstripped == "i" or sw_unstripped == "y" or sw_unstripped == "e":
@@ -727,32 +741,34 @@ def containsForeignTerm(words):
                     
             # Q not followed by a U or I
             if "q" in sw_lower:
-                if re.search(r"q[^ui',.:;!?\"\s]", sw_unstripped) is not None:
+                if regex_q_without_u.search(sw_unstripped) is not None:
                     return True
 
             # Filter scientific-style names like "S. umbelliferum"
             line = " ".join(words)
 
             if "\"" in line:
-                if re.search(r"\"[A-Z]\. ([a-z]{5,})\"", line) is not None:
+                if regex_scientific_names.search(line) is not None:
                     return True
 
     return False
     
 def containsFilteredWord(words):
-    global regex_split_punctuation
+    global regex_split_punctuation, regex_non_letters_and_apostrophes
 
     for w in words:
         sub_words = regex_split_punctuation.split(w) # Split on - or ...
         
         for sw in sub_words:
-            sw = re.sub(r"[^[a-zA-Z']","", sw)
+            sw = regex_non_letters_and_apostrophes.sub("", sw)
             if filter_list.count(sw.lower()) > 0:
                 return sw
             
     return None
     
 def containsMissingWords(line):
+    global regex_split_punctuation, regex_strip_uncommon_chars, regex_truncated_the
+
     words = line.split()
 
     for w in words:
@@ -818,8 +834,8 @@ def containsMissingWords(line):
      "is and at", "runs for through", "flows for through", "eastward for through", "around of", "approximately of", "is mm", "was mm", "were mm", "is km", \
      "was km", "were km", "between mm", "between mm", "for mm", "for km"]
      
-    unstripped = re.sub(r'[^[a-zA-Z ,\"\':;\."]','', line)
-    stripped = re.sub(r'[^[a-zA-Z ]','', line).lower()
+    unstripped = regex_strip_uncommon_chars.sub('', line)
+    stripped = regex_split_punctuation.sub('', line).lower()
      
     for c in criteria:
         # Make sure phrase appears without punctuation in the middle e.g. but, and
@@ -830,7 +846,7 @@ def containsMissingWords(line):
     if unstripped.startswith("It and "):
         return True
 
-    if re.search(r"(the)\ [A-Z]\.$", line) is not None:
+    if regex_truncated_the.search(line) is not None:
         return True
 
     return False

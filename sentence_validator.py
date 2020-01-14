@@ -668,45 +668,55 @@ def containsForeignTerm(words):
                 return True
             
             # Case sensitive
-            full_patterns = ["le","ng","les","del","al","das","du","dos","el","des","dil","ma","fu","pe","si","im","Ii","ni"]
+            full_patterns = set(["le","ng","les","del","al","das","du","dos","el","des","dil","ma","fu","pe","si","im","Ii","ni","Tl","Bt","ter","va","ca"])
         
             for p in full_patterns:
                 if sw == p:
                     return True
             
             # Case insensitive
-            full_insensitive_patterns = ["og","la","ap","ibn","et","ga","sur","aj","ud", \
+            full_insensitive_patterns = set(["og","la","ap","ibn","et","ga","sur","aj","ud", \
             "ix","ich","zur","und","una","jou","jus","que","qui","est","te","tu","il","avec","vous","yr","ar","sa","auf","ny", \
             "na","vi","ein","ist","alte","mon","lei","lui","mi","moi","rasa","zu","mit","von","au","je","ne","jah","uz","png", \
             "ja","za","ka","ba","ch","lok","ool","ry","haq","huq","ul","ga","roi","dh","pe","aa","ke","ona","ww","ak", \
-            "mi","fa","ji","deg","gu","dei","toh","ar","ge","rrh","aoi","och","fod","megc","om","ol","ua","pu","ee","xie","nwo","sui","siya"]
+            "mi","fa","ji","deg","gu","dei","toh","ar","ge","rrh","aoi","och","fod","megc","om","ol","ua","pu","ee","xie","nwo", \
+            "sui","siya","amr","ach","hb","scfv","unde","hsi","fn","dwb","sul","liw","ecce","tui","ti","teh","kut","ausf","vo","het","nam", \
+            "deh","seu","que","ven","tha","phra","tho","thu","dux","okul","blok","ust","vor","tchee","hee","chik","ju","kik","chee","cu", \
+            "ost","ong","fac","qua","tugh","ulus","ser","krack","koto","bint","qin","ki","nig","ook","ter","sint","fo","sed","cao","kot","hof", \
+            "cn","degli","ls","bei","kai","nem","aan","thi","vv","kok","hei","tuo"])
         
             for p in full_insensitive_patterns:
                 if sw_lower == p:
                     return True
 
             # Starts
-            insensitive_starts = ["mb","nd","cni","uem","krk","yps","mw","khu","mst","mku","mh","mt","dje","ouag","izq","shch","nh","slh","prf",\
+            insensitive_starts = set(["mb","nd","cni","uem","krk","yps","mw","khu","mst","mku","mh","mt","dje","ouag","izq","shch","nh","slh","prf",\
             "ht","sb","gsc","gsa","gsh","jha","psk","izb","xio","xua","ss","pyeo","kii","md","lv","srp","vli","pht","atq","ks","maar","maac","maan", \
             "maal","maay","mij","bsh","ff","sree","nk","sht","mf","nts","nta","ntc","nto","ntu","nty","nte","nti","ntl","iwa","dho","dham","dhav", \
             "dho","dhar","dhau","dhaw","dham","dhan","dhe","dhu","dhar","dhi","dhr","tj","khag","hao","sf","cw","akh","mri","mru","mro","mre","bho", \
-            "chh","bhi","mrd","rattu","sattu","xia","xiu","xie","gye","mv","mg","mma","anky"]
+            "chh","bhi","mrd","rattu","sattu","xia","xiu","xie","gye","mv","mg","mma","anky","lli","lly","llu","llan","muee","sye","xal","vr","aea", \
+            "aghw","zlat","mp","hw","yl","ije","nga","oos","ns","inya","oer","tva","tve","tvi","tvo","tvu","esf","aas","dva","dve","dvi","hoh","mno", \
+            "eka","caec","jaec","baec","gwr","daeg","taeg","jaeg","dae","okr","vyc","oue","gd","twm","qaz","khe","crn","gz","yr","myrg","pta","aeo", \
+            "gb","qaw","sek","xin","aje","otj","ys","uji","kok"])
         
             for p in insensitive_starts:
                 if sw_lower.startswith(p):
                     return True
 
             # Ends
-            insensitive_ends = ["rinae","dj","idae","siella","irae","dinae","tinae","linae","ginae","binae","sinae","thinae","ziella","vci","eong", \
+            insensitive_ends = set(["rinae","dj","idae","siella","irae","dinae","tinae","linae","ginae","binae","sinae","thinae","ziella","vci","eong", \
             "yeon","izae","rji","tji","ensis","erae","losia","otl","ehr","rurus","ocactus","raea","oidea","pidea","nwg","chwr","vsk","zd","chiv","hwy", \
             "gwy","kii","sija","cija","dija","lija","nija","zija","kija","jija","pija","dw","wr","yj","kn","kw","skyi","cillus","kga","dh","hg","gt", \
-            "adt","oru","nje","attu","swamy","lw","gyi","ndha","hr","nj"]
+            "adt","oru","nje","attu","swamy","lw","gyi","ndha","hr","nj","hr","bsk","chny","atif","icum","imaya","inae","cete","cetes","eq","inase", \
+            "inases","yq","tsk","ija","echt","djo","kje","yi","gwe","mte","ije","nh","micin","gr","zki","uj","jai","lok","dte","chik","rht","aas", \
+            "mde","gse","ndl","ohe","iec","lvi","avi","ivi","kl","dae","dr","kr","tr","lsk","osus","scens","ehr","uw","beek","lg","dse","sev","adu", \
+            "tze","ische","tyly","ctylus","tje"])
         
             for p in insensitive_ends:
                 if sw_lower.endswith(p):
                     return True
 
-            partial_patterns = ["sz","fj","rrr","vlt","icz","aen","aoa","gks","ldj","bha","oji","ijc","zej","aad","aass","nayi", \
+            partial_patterns = set(["sz","fj","rrr","vlt","icz","aen","aoa","gks","ldj","bha","oji","ijc","zej","aad","aass","nayi", \
             "yy","iiv","zdz","jja","jju","uuk","plj","vlj","dtt","aat","mts","vya","gnj","qar","jy","bhak","visn","abha","djed", \
             "ajat","rii","sii","tii","mii","jii","zii","sii","oii","pii","gii","lii","cii","nii","dzt","yngl","kht","qut","ilij", \
             "jg","aak","aey","ijp","gaon","lj","gju","zuu","eae","ydd","aew","ggj","tsip","dsche","iid","uqa","ianu","cnem","dyal" \
@@ -720,10 +730,23 @@ def containsForeignTerm(words):
             "dihy","zhs","azn","yaj","ijn","khn","czu","vyr","evg","vyd","uaca","jni","mrr","kkl","zvia","kkav","rkk","wys","uxii","asaa", \
             "hiei","yaya","wij","ijk","bvr","itja","zhn","jna","jra","satya","aev","hii","hhh","zzz","ajn","dhh","eorh","lsve","rzy","prze", \
             "korz","krze","hrze","brze","jij","phof","zha","zhi","zhu","czh","dtj","jiq","gkh","yts","vij","wph","krb","rija","lakh","sakh", \
-            "dakh","bakh","czk","okch","ekch","ukch","giy","ovgr","vattu","onnu","jd","umz","aee","dhs","obz","abz","ukw","khra"]
+            "dakh","bakh","czk","okch","ekch","ukch","giy","ovgr","vattu","onnu","jd","umz","aee","dhs","obz","abz","ukw","khra","laka", \
+            "yghe","aji","haea","raea","naea","maea","laea","taea","ayev","mkh","czew","ilul","jji","piw","komm","ntge","hdw","jw","naue", \
+            "chch","jadj","idj","iy","auh","vva","ocz","iaj","clw","eoru","cysy","rije","sije","yffy","uje","tej","sae","uaih","waih","naih", \
+            "taih","maih","kerk","rgv","zhou","wae","yzz","ryu","zae","xuk","vaer","niji","zun","ilok","loko","loks","loky","lokv","elok", \
+            "lokh","alok","olok","kaas","fge","azhe","kny","sika","oxyl","dkar","myx","raec","maec","haec","kyu","ujil","oeck","kx","czak", \
+            "lwyd","oxyr","yvk","ozh","ykh","klub","qid","akk","eorr","skj","aie","ishq","lx","ifolia","ovii","atae","ngz","egz","rgz","mtge", \
+            "voor","afde","efde","ufde","voz","prak","achge","echge","yrem","gje","gjo","qiu","pyu","uzh","oeir","gku","jir","oek","uhe","aeu", \
+            "zolam","zk","kik"])
             
             for p in partial_patterns:
-                if sw_lower.count(p) > 0:
+                if p in sw_lower:
+                    return True
+
+            partial_sensitive_patterns = set(["dji","Bije","vp"])
+
+            for p in partial_sensitive_patterns:
+                if p in sw:
                     return True
             
             if len(sw_unstripped) > 2:

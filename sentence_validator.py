@@ -34,6 +34,10 @@ def runScript():
     global regex_unusual_apostrophes, regex_non_letters, regex_split_punctuation, regex_non_english_chars, regex_end_in_comma_and_letter, regex_strip_punctuation
     global regex_extra_periods, regex_no_comma_after_space, regex_non_letters_and_periods
 
+    output_stats = {}
+    success_sentence_count = 0
+    fail_sentence_count = 0
+
     try:
         opts, args = getopt.getopt(sys.argv[1:],"i:p:o:of:",["input=", "filter-list=","output-success=","output-fail="])
     except getopt.GetoptError:
@@ -224,9 +228,20 @@ def runScript():
                 
                 if output_success_file:
                     f_success.write(line + "\n")
+
+                success_sentence_count += 1
                     
             except ValidationFailure as vf:
                     print("Validation failed ({}): {}".format(vf,line))
+
+                    fail_sentence_count += 1
+
+                    stats_key = str(vf)
+
+                    if stats_key in output_stats:
+                        output_stats[stats_key] += 1
+                    else:
+                        output_stats[stats_key] = 1
 
                     if output_fail_file:
                         f_fail.write(line + "\n")
@@ -238,6 +253,11 @@ def runScript():
     if output_fail_file:
         f_fail.close()
 
+
+    print("\nStats: \nTotal sentences: {}\nSuccessful sentences: {}\nFailed sentences: {}".format(success_sentence_count + fail_sentence_count, success_sentence_count, fail_sentence_count))
+
+    for key in output_stats.keys():
+        print("{}: {}".format(key, output_stats[key]))
 
 def expandAbbreviations(line):
     # Find and replace common terms

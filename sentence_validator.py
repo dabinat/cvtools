@@ -833,7 +833,7 @@ def containsMissingWords(line):
         or w == "\"\"?" or w == "," or w == "." or w == "'s" or w == "\"\"," or w == "\",\"" or w.startswith("??") or w.startswith("\"??"):
             return True
             
-    criteria = ["over of", "on of", "with of", "by of", "between of", "between and", "and and", "of and", "of of",\
+    criteria = set(["over of", "on of", "with of", "by of", "between of", "between and", "and and", "of and", "of of",\
      "than and","than of", "of but", "about long", "about wide", "about tall", "about short", "about thick",\
      "about deep", "about high", "about in size", "about from", "about off", "approximately long", "approximately wide",\
      "approximately tall", "approximately short", "approximately thick", "approximately deep", "approximately high",\
@@ -889,7 +889,9 @@ def containsMissingWords(line):
      "speed of has", "between in elevation", "comprised about or", "in the at", "long by wide", "its length is and", "its width is and", \
      "its depth is and", "its height is and", "reach in length", "reach in size", "reaches in length", "reaches in size", "around of", "approximately of", \
      "is and at", "runs for through", "flows for through", "eastward for through", "around of", "approximately of", "is mm", "was mm", "were mm", "is km", \
-     "was km", "were km", "between mm", "between mm", "for mm", "for km"]
+     "was km", "were km", "between mm", "between mm", "for mm", "for km", "approximately later", "occupies in", "only of roadbed", "Spain's of railway", \
+     "about at", "area is with", "is long from", "between during", "to around at", "weighs about and", "runs for from", "extends for from", \
+     "stretches for from", "and for from", "estimates for from", "upriver for from", "track for from", "to ago", "of over for", "of over from"])
      
     unstripped = regex_strip_uncommon_chars.sub('', line)
     stripped = regex_split_punctuation.sub('', line).lower()
@@ -905,6 +907,25 @@ def containsMissingWords(line):
 
     if regex_truncated_the.search(line) is not None:
         return True
+
+    # Check for sentences like "He went with Michael A."
+    last_word = regex_non_letters.sub("", words[-1])
+
+    if len(last_word) == 1 and last_word.isupper():
+        person_names = personNames()
+
+        # Add additional prefixes like "Professor"
+        person_names.update(["Professor", "Professors", "Doctor", "Mr", "Mrs", "Miss", "Ms", "Sir", "Dame", "Judge", "Commissioner", "General", "Colonel", "Lieutenant", "Sergeant", \
+            "Captain", "Commander", "Admiral", "Major", "Corporal", "Supervisor", "Minister", "President", "theologian", "architect", "archivist", "foundryman", "founder", \
+            "critic", "former", "author", "quarterback", "writer", "screenwriter", "teammate", "cultivar", "scientist", "essayist", "historian", "artist", "ship-owner", \
+            "owner", "physicist", "chemist", "biologist", "brother", "sister", "mother", "Mother", "father", "independent", "horticulturist", "star", "businessman", "producer", \
+            "director", "actor", "entrepreneur", "partner", "student", "teacher", "glaciologist", "antagonist", "scholar", "creator", "engraver", "don", "comical", "painter", \
+            "publisher", "commissioner", "machinist"])
+
+        penultimate_word = regex_non_letters.sub("", words[-2])
+
+        if penultimate_word in person_names:
+            return True
 
     return False
 
@@ -962,7 +983,8 @@ def personNames():
                             "Harley","Herbert","Reuben","Sabin","Orville","Rose","Rosa","Caspian","Rodriguez","Marion","Marian","Lee","Kent","Iyasu","Meyer", \
                             "Derek","Gordon","Gary","Lea","Leah","Lucille","Camille","Pierson","Garry","Galusha","Hershel","Haskell","Benjamin","Ben","Cecil", \
                             "Dorothy","Joe","Sallie","Sally","Ellen","Nellie","Bradley","Mills","Steven","Clifford","Edmund","Maria","Elliott","Elliot","Joel", \
-                            "Elbert","Egbert","Jeremiah","Saidie","Eyal","LeBel","Clotaire","Strato","Marwan","Arsinoe","Mikhail"])
+                            "Elbert","Egbert","Jeremiah","Saidie","Eyal","LeBel","Clotaire","Strato","Marwan","Arsinoe","Mikhail","Burchard","Dionysius","Theobald", \
+                            ])
 
 def fixMisspellings(line):
     word_map = {"idustry":"industry", "tv":"TV", "breaksin":"breaks in", "Albun":"Album", "everywher":"everywhere", "conjusted":"congested", "pavaments":"pavements", \

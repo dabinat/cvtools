@@ -991,7 +991,12 @@ def fixMisspellings(line):
     "elibible":"eligible", "thrushs":"thrushes", "topforty":"top-forty", "kylie":"Kylie", "buble":"bubble", "partecipated":"participated", "Worrior":"Warrior", "ia":"is", \
     "Departement":"Department", "vimeo":"Vimeo", "wararm":"war arm", "spontenaity":"spontaneity", "Manunscripts":"Manuscripts", "missquoted":"misquoted", \
     "sponteaneous":"spontaneous", "inteject":"interject", "Jonh":"John", "dropt":"drops", "halucinatory":"hallucinatory", "guerilla":"guerrilla", "Outwith":"Out with", \
-    "archeological":"archaeological", "twentyfive":"twenty-five", "carricatures":"caricatures"}
+    "archeological":"archaeological", "twentyfive":"twenty-five", "carricatures":"caricatures", "andc":"and", "occaasional":"occasional", "advertisting":"advertising", \
+    "characterizises":"characterizes", "aparatus":"apparatus", "uninterruptable":"uninterruptible", "processcreating":"process creating", "addresseeis":"addressee is", \
+    "locataed":"located", "liquifying":"liquefying", "iemerges":"emerges", "ministeral":"ministerial", "musi":"music", "synomym":"synonym", "sn":"an", "progject":"project", \
+    "unqiue":"unique", "expierence":"experience", "Johhny":"Johnny", "Henceat":"Hence at", "deathhis":"death his", "constitutuency":"constituency", "Portugese":"Portuguese", \
+    "persom":"person", "monestisation":"monetisation", "Adveturer's":"Adventurer's", "Forc":"Force", "ignoran":"ignorant", "dinstinguishes":"distinguishes", \
+    "Descendents":"Descendants", "partsof":"parts of"}
 
     keys = word_map.keys()
 

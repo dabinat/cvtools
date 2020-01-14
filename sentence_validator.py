@@ -271,10 +271,20 @@ def expandAbbreviations(line):
     line = line.replace(".uk"," dot uk")
     line = line.replace(".ca"," dot ca")
     line = line.replace(".fm"," dot fm")
+    line = line.replace(".de"," dot de")
     line = line.replace(".gov"," dot gov")
+    line = line.replace(".info"," dot info")
+    line = line.replace(".edu"," dot edu")
     line = line.replace(".io"," dot io")
     line = line.replace(".tv"," dot tv")
     line = line.replace(".ru"," dot ru")
+    line = line.replace(".sg"," dot sg")
+    line = line.replace(".db"," dot db")
+    line = line.replace(".exe"," dot exe")
+    line = line.replace(".bat"," dot bat")
+    line = line.replace(".zip"," dot zip")
+    line = line.replace(".gz"," dot gz")
+    line = line.replace(".sh"," dot sh")
     line = line.replace("www.","www dot ")
 
     # Roman numerals
@@ -283,7 +293,7 @@ def expandAbbreviations(line):
                             "Annex","Atlas","Ares","Mark","Zone","Division","Icarus","Falcon","WrestleMania","Article","Legio","Merlin","Metro","Chapter","Apple","Luft", \
                             "Panzer","Tysons","Turbo","Genesis","form","Form","Act","Budapest","FreeDonia","Dalek","Star","Berdan","Bratislava","Discoverer","Offset", \
                             "Municipio","Liga","Cullinan","Technology","Company","Civilization","Volume","Sparrow","Appendix","Bowl","Discoverer","Offset","Apple","Luft", \
-                            "Panzer","Ultima","War","Genesis","Station"])
+                            "Panzer","Ultima","War","Genesis","Station","Trident"])
     suffixes = ["chord","tonic"]
     numerals = [{"from":"I","to":"One"},{"from":"II","to":"Two"},{"from":"III","to":"Three"},{"from":"IV","to":"Four"},{"from":"V","to":"Five"}]
 
@@ -420,6 +430,8 @@ def expandAbbreviations(line):
             out_word = "Company"
         elif w == "Hon." or w == "Hon":
             out_word = "Honorable"
+        elif w == "Rt. Hon." or w == "Rt.Hon.":
+            out_word = "Right-Honorable"
         elif w == "Inc.":
             out_word = "Incorporated"
         elif w == "v." or w == "vs" or w == "vs.":
@@ -510,7 +522,7 @@ def expandAbbreviations(line):
             out_word = "Generals"
         elif w == "Prof" or w == "Prof.":
             out_word = "Professor"
-        elif w == "Cdr." or w == "Cmdr." or w == "Comdr." or w == "Cdr":
+        elif w == "Cdr." or w == "Cmdr." or w == "Comdr." or w == "Cdr" or w == "Cmdr":
             out_word = "Commander"
         elif w == "d.b.a.":
             out_word = "doing business as"
@@ -642,6 +654,8 @@ def expandAbbreviations(line):
             out_word = "Madame"
         elif w == "b.":
             out_word = "born"
+        elif w == "t.v.":
+            out_word = "TV"
 
         out_words.append(start_punctuation + out_word + end_punctuation)
         

@@ -11,6 +11,7 @@ max_frequency = 0
 words_only = False
 no_repeats = False
 split_by_apostrophe = False
+non_dictionary_only = False
 
 
 def clean(line):
@@ -43,11 +44,11 @@ def clean_and_split(line, split_apostrophes=False):
 
 
 def printhelp():
-    print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--strip-by-apostrophe] [--no-repeats]')
+    print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--non-dictionary-words] [--strip-by-apostrophe] [--no-repeats]')
 
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:],"i:d",["input=","dictionary=","limit=","min-frequency=","max-frequency=","show-words-only","strip-by-apostrophe","no-repeats"])
+    opts, args = getopt.getopt(sys.argv[1:],"i:d",["input=","dictionary=","limit=","min-frequency=","max-frequency=","show-words-only","strip-by-apostrophe","no-repeats","non-dictionary-words"])
 except getopt.GetoptError:
     printhelp()
     sys.exit(2)
@@ -72,12 +73,24 @@ for opt, arg in opts:
         words_only = True
     elif opt == "--no-repeats":
         no_repeats = True
+    elif opt == "--non-dictionary-words":
+        non_dictionary_only = True
 
 word_dict = defaultdict(int)
 
 if not os.path.exists(input_file):
     printhelp()
     sys.exit(2)
+
+dictionary = set()
+
+# Scan dictionary if the user specified it (assumes one word per line)
+if dictionary_file:
+    with open(dictionary_file, encoding='utf-8') as f:
+        for line in f:
+            line = clean(line).strip()
+            if len(line) > 0:
+                dictionary.add(line)
 
 # Scan sentences
 with open(input_file) as f:
@@ -103,15 +116,11 @@ with open(input_file) as f:
                 val += 1
                 word_dict[w] = val
 
-# Scan dictionary if the user specified it (assumes one word per line)
-if min_frequency == 0 and dictionary_file:
-    with open(dictionary_file) as f:
-        for line in f:
-            line = clean(line)
-            if len(line) > 0:
-                # Add word if it doesn't exist
-                val = word_dict[line]
-                word_dict[line] = val
+if min_frequency == 0 and not non_dictionary_only and dictionary_file:
+    # Add dictionary words if they don't exist
+    for word in dictionary:
+        val = word_dict[word]
+        word_dict[word] = val
 
 # Filter by min/max frequency
 filtered_words = defaultdict(int)
@@ -119,6 +128,11 @@ filtered_words = defaultdict(int)
 for word in word_dict:
     if (min_frequency == 0 or int(word_dict[word]) >= min_frequency) and \
     (max_frequency == 0 or int(word_dict[word]) <= max_frequency):
+
+        # Check if it's in the dictionary
+        if non_dictionary_only and word in dictionary:
+            continue
+
         filtered_words[word] = word_dict[word]
 
 # Now sort by alphabetical order of word

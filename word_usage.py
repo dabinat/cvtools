@@ -10,7 +10,7 @@ min_frequency = 0
 max_frequency = 0
 words_only = False
 no_repeats = False
-split_by_apostrophe = False
+strip_apostrophes = False
 non_dictionary_only = False
 
 
@@ -32,8 +32,8 @@ def clean(line):
     return line
 
 
-def clean_and_split(line, split_apostrophes=False):
-    if split_apostrophes:
+def clean_and_split(line, strip_apostrophes=False):
+    if strip_apostrophes:
         # Remove apostrophes to split words
         line = line.replace("'", " ")
         line = line.replace('"', "")
@@ -44,11 +44,11 @@ def clean_and_split(line, split_apostrophes=False):
 
 
 def printhelp():
-    print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--non-dictionary-words] [--strip-by-apostrophe] [--no-repeats]')
+    print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--non-dictionary-words] [--strip-apostrophes] [--no-repeats]')
 
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:],"i:d",["input=","dictionary=","limit=","min-frequency=","max-frequency=","show-words-only","strip-by-apostrophe","no-repeats","non-dictionary-words"])
+    opts, args = getopt.getopt(sys.argv[1:],"i:d",["input=","dictionary=","limit=","min-frequency=","max-frequency=","show-words-only","strip-apostrophes","no-repeats","non-dictionary-words"])
 except getopt.GetoptError:
     printhelp()
     sys.exit(2)
@@ -67,8 +67,8 @@ for opt, arg in opts:
         min_frequency = int(arg)
     elif opt == "--max-frequency":
         max_frequency = int(arg)
-    elif opt == "--strip-by-apostrophe":
-        split_by_apostrophe = True
+    elif opt == "--strip-apostrophes":
+        strip_apostrophes = True
     elif opt == "--show-words-only":
         words_only = True
     elif opt == "--no-repeats":
@@ -95,7 +95,7 @@ if dictionary_file:
 # Scan sentences
 with open(input_file) as f:
     for line in f:
-        words = clean_and_split(line, split_by_apostrophe)
+        words = clean_and_split(line, strip_apostrophes)
         repeat_list = []
 
         for w in words:

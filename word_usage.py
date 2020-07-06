@@ -93,7 +93,7 @@ if dictionary_file:
                 dictionary.add(line)
 
 # Scan sentences
-with open(input_file) as f:
+with open(input_file, encoding='utf-8') as f:
     for line in f:
         words = clean_and_split(line, strip_apostrophes)
         repeat_list = []

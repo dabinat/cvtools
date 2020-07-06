@@ -53,7 +53,7 @@ Python script to get word usage stats from Mozilla's Common Voice [Sentence Coll
 ### Usage
 
 ~~~~
-word_usage.py -i <input_file> [-d <dictionary_file>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--strip-by-apostrophe] [--no-repeats]
+word_usage.py -i <input_file> [-d <dictionary_file>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--strip-apostrophes] [--no-repeats] [--non-dictionary-words]
 ~~~~
 
 `-i` - a text file with a sentence on each line.
@@ -68,9 +68,11 @@ word_usage.py -i <input_file> [-d <dictionary_file>] [--limit x] [--min-frequenc
 
 `--show-words-only` - outputs the word without the number of matches. Useful for piping a word list to a separate file.
 
-`--strip-by-apostrophe` - split sentences also removing some symbols
+`--strip-apostrophes` - this allows words like "friend" and "friend's" to match as "friend"
 
 `--no-repeats` - ignore multiple occurrences of a word in a single sentence.
+
+`--non-dictionary-words` - only output words that don't exist in the provided dictionary (requires you to set the `-d` argument). This is useful for creating a blocklist of infrequent non-dictionary words.
 
 ### Output
 

@@ -21,7 +21,7 @@ def clean(line):
     line = line.replace(u"\u00b4", "'")
 
     # Filter out symbols
-    line = re.sub("[^a-zA-Z\u00c0-\u024f\u1e00-\u1eff']", " ", line)
+    line = re.sub("[^a-zA-Z\u00c0-\u024f\u0370-\u1fff\u3040-\ufeff']", " ", line)
 
     # Remove any double spaces introduced by last regex
     line = re.sub("\ {2,}", " ", line)

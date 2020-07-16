@@ -53,7 +53,7 @@ Python script to get word usage stats from Mozilla's Common Voice [Sentence Coll
 ### Usage
 
 ~~~~
-word_usage.py -i <input_file> [-d <dictionary_file>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--strip-apostrophes] [--no-repeats] [--non-dictionary-words]
+word_usage.py -i <input_file> [-d <dictionary_file>] [--limit x] [--min-frequency x] [--max-frequency x] [--min-length x] [--max-length x] [--show-words-only] [--strip-apostrophes] [--no-repeats] [--non-dictionary-words]
 ~~~~
 
 `-i` - a text file with a sentence on each line.
@@ -65,6 +65,10 @@ word_usage.py -i <input_file> [-d <dictionary_file>] [--limit x] [--min-frequenc
 `--min-frequency` - returns only words that have at least *x* matches. (This causes the dictionary argument to be ignored because all missing dictionary words would have a frequency of 0.)
 
 `--max-frequency` - returns only words with up to *x* matches.
+
+`--min-length` - returns words only *x* characters or longer.
+
+`--max-length` - returns words only *x* characters or shorter.
 
 `--show-words-only` - outputs the word without the number of matches. Useful for piping a word list to a separate file.
 

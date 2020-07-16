@@ -8,6 +8,8 @@ dictionary_file = ''
 limit = 0
 min_frequency = 0
 max_frequency = 0
+min_length = 0
+max_length = 0
 words_only = False
 no_repeats = False
 strip_apostrophes = False
@@ -43,11 +45,11 @@ def clean_and_split(line, strip_apostrophes=False):
 
 
 def printhelp():
-    print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--show-words-only] [--non-dictionary-words] [--strip-apostrophes] [--no-repeats]')
+    print('word_usage.py -i <input file> [-d <dictionary>] [--limit x] [--min-frequency x] [--max-frequency x] [--min-length x] [--max-length x] [--show-words-only] [--non-dictionary-words] [--strip-apostrophes] [--no-repeats]')
 
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:],"i:d",["input=","dictionary=","limit=","min-frequency=","max-frequency=","show-words-only","strip-apostrophes","no-repeats","non-dictionary-words"])
+    opts, args = getopt.getopt(sys.argv[1:],"i:d:",["input=","dictionary=","limit=","min-frequency=","max-frequency=","min-length=","max-length=","show-words-only","strip-apostrophes","no-repeats","non-dictionary-words"])
 except getopt.GetoptError:
     printhelp()
     sys.exit(2)
@@ -66,6 +68,10 @@ for opt, arg in opts:
         min_frequency = int(arg)
     elif opt == "--max-frequency":
         max_frequency = int(arg)
+    elif opt == "--min-length":
+        min_length = int(arg)
+    elif opt == "--max-length":
+        max_length = int(arg)
     elif opt == "--strip-apostrophes":
         strip_apostrophes = True
     elif opt == "--show-words-only":
@@ -104,7 +110,12 @@ with open(input_file, encoding='utf-8') as f:
             if len(w) > 1 and w[-1] == "'":
                 w = w[:-1]
 
-            if len(w) > 0 and w != "'":
+            w_len = len(w)
+
+            if w_len > 0 and w != "'":
+                if w_len < min_length or (max_length > 0 and w_len > max_length):
+                    continue
+
                 if no_repeats:
                     if w in repeat_list:
                         continue

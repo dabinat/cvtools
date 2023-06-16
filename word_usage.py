@@ -15,13 +15,16 @@ no_repeats = False
 strip_apostrophes = False
 non_dictionary_only = False
 
-def clean(line):    
+
+def replace_apostrophes(line):
     # Convert curly apostrophes to straight
     line = line.replace(u"\u2018", "'")
     line = line.replace(u"\u2019", "'")
     line = line.replace(u"\u0060", "'")
     line = line.replace(u"\u00b4", "'")
 
+
+def clean(line):    
     # Filter out symbols
     line = re.sub("[^a-zA-Z\u00c0-\u024f\u0370-\u1fff\u3040-\ufeff']", " ", line)
 
@@ -34,6 +37,9 @@ def clean(line):
 
 
 def clean_and_split(line, strip_apostrophes=False):
+
+    replace_apostrophes(line)
+
     if strip_apostrophes:
         # Remove apostrophes to split words
         line = line.replace("'", " ")
